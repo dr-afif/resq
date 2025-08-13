@@ -1,0 +1,121 @@
+<!-- From Uiverse.io by guilhermeyohan --> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referral Case Form</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="login-box">
+  <h2>Referral Case Form</h2>
+  <form id="whatsappForm">
+    
+    <div class="user-box">
+      <input type="text" id="name" required="">
+      <label>Patient's Name</label>
+    </div>
+
+    <div class="user-box">
+      <input type="text" id="mrn" required="">
+      <label>Patient's MRN / IC</label>
+    </div>
+
+    <fieldset class="radio-container-1">
+      <legend>From</legend>
+
+      <input type="radio" id="fromFMC" name="from" value="FMC" checked>
+      <label for="fromFMC">FMC</label>
+
+      <input type="radio" id="fromPKU" name="from" value="PKU">
+      <label for="fromPKU">PKU</label>
+
+      <div class="glider-container">
+        <div class="glider"></div>
+      </div>
+    </fieldset>
+
+    <div class="user-box">
+      <input type="text" id="workingDiagnosis" required="">
+      <label>Working Diagnosis</label>
+    </div>
+
+    <div class="user-box">
+      <input type="text" id="referredFrom" required="">
+      <label>Referred from (MO / SP name)</label>
+    </div>
+
+    <div class="user-box">
+      <input type="text" id="receivedBy" required="">
+      <label>Received by (MO RESQ name)</label>
+    </div>
+
+    <div class="user-box">
+      <input type="text" id="primaryDept" required="">
+      <label>Primary Team (Department)</label>
+    </div>
+
+    <div class="user-box">
+      <input type="text" id="primaryMO" required="">
+      <label>Primary Team (MO Name)</label>
+    </div>
+
+    <fieldset class="radio-container-2">
+      <legend>Uptriage to</legend>
+
+      <input type="radio" id="YZ" name="uptriage" value="YZ" checked>
+      <label for="YZ">YZ</label>
+
+      <input type="radio" id="RZ" name="uptriage" value="RZ">
+      <label for="RZ">RZ</label>
+
+      <input type="radio" id="Non" name="uptriage" value="Non">
+      <label for="Non">Non</label>
+
+      <div class="glider-container">
+        <div class="glider"></div>
+      </div>
+    </fieldset>
+
+    <div class="user-box">
+      <textarea id="plan" rows="3" style="width: 100%; background: transparent; color: #fff; border: none; border-bottom: 1px solid #fff; resize: none;" required></textarea>
+      <label>Plan</label>
+    </div>
+
+    <center>
+      <a href="#" id="sendBtn">
+        SEND TO RESQ SEU
+        <span></span>
+      </a>
+    </center>
+
+  </form>
+</div>
+
+<script>
+document.getElementById("sendBtn").addEventListener("click", function(e){
+  e.preventDefault();
+
+  let name = document.getElementById("name").value;
+  let mrn = document.getElementById("mrn").value;
+  let from = document.querySelector("input[name='from']:checked").value;
+  let diagnosis = document.getElementById("workingDiagnosis").value;
+  let referred = document.getElementById("referredFrom").value;
+  let received = document.getElementById("receivedBy").value;
+  let dept = document.getElementById("primaryDept").value;
+  let mo = document.getElementById("primaryMO").value;
+  let uptriage = document.querySelector("input[name='uptriage']:checked").value;
+  let plan = document.getElementById("plan").value;
+
+  let message = `*REFERRAL CASE*\n\n*Name*: ${name}\n*Mrn/ic*: ${mrn}\n\n*From*: ${from}\n*Working Diagnosis*: ${diagnosis}\n*Referred from*: ${referred}\n*Received by*: ${received}\n*Primary team*: ${dept} - ${mo}\n*Uptriage to*: ${uptriage}\n\n*Plan*: ${plan}`;
+
+  let groupID = "YOUR_GROUP_CHAT_ID"; // Replace with actual group chat ID
+  window.open(`https://wa.me/601119827167?text=${encodeURIComponent(message)}`, "_blank");
+});
+</script>
+
+</body>
+</html>
+<!--https://api.whatsapp.com/send?phone=${groupID}&text=${encodeURIComponent(message)}-->
