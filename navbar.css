@@ -1,0 +1,32 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0; /* Ensure it starts from far left */
+  width: 100%;
+  background: #1e1e1e;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.bottom-nav a {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  flex: 1;
+}
+
+.bottom-nav img {
+  width: 36px;
+  height: 36px;
+  display: block;
+  margin: 0 auto 0px;
+  filter: invert(1);
+}
+
+.bottom-nav span {
+  font-size: 12px;
+}
+
