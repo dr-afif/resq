@@ -9,6 +9,7 @@
   padding: 8px 0;
   box-sizing: border-box;
   z-index: 1000;
+  height: 60px;
 }
 
 .bottom-nav a {
