@@ -125,13 +125,35 @@ document.getElementById("sendBtn").addEventListener("click", function(e){
 
   // ✅ JSONP request instead of fetch
   const script = document.createElement("script");
-  script.src = "https://script.google.com/macros/s/AKfycby9cUpxX9ImZwGE9DIBu9M9gJpgupb0ZulZ8QV4VtgWYkpWXy5GhJzmlmnjH7yKH-5FgQ/exec"
+  script.src = "https://script.google.com/macros/s/AKfycbypGu3aeg_cdUPWDZAiw0SWCUidFQbQfUjazlNjfrA0xZvxvnlnk5keRfViQP_qKjpK/exec"
     + "?callback=handleResponse"
     + "&data=" + encodeURIComponent(JSON.stringify(payload));
   document.body.appendChild(script);
 
   // ✅ WhatsApp
-  window.open(`https://wa.me/601119827167?text=${encodeURIComponent(message)}`, "_blank");
+  /*window.open(`https://wa.me/601119827167?text=${encodeURIComponent(message)}`, "_blank");*/
+
+  // ✅ WhatsApp - Copy message and open group
+  try {
+    const groupID = "BukdQzI6FL0HRnpVgksTqS";
+    
+    // Copy message to clipboard and open group
+    navigator.clipboard.writeText(message).then(() => {
+      window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
+      alert("✅ Message copied to clipboard! \n\nWhatsApp group is opening - paste the message (Ctrl+V) in the chat box.");
+    }).catch(err => {
+      // Fallback if clipboard fails
+      console.warn("Clipboard not available:", err);
+      window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
+      
+      // Show message in a prompt so user can copy it
+      prompt("Copy this message and paste it in WhatsApp:", message);
+    });
+    
+  } catch (error) {
+    console.error("Error opening WhatsApp:", error);
+    alert("⚠️ Error opening WhatsApp. Please try again.");
+  }
 });
 
 // ✅ Callback for JSONP
