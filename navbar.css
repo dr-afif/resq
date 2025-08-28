@@ -7,13 +7,14 @@
   border-top: 1.5px solid #e0e6ed;
   display: flex;
   justify-content: space-around;
-  padding: 6px 0;
-  padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px)); /* 👈 extra padding */
+  align-items: center;
+  padding: 8px 0; /* normal padding */
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); /* extra safe area */
   box-sizing: border-box;
   z-index: 1000;
-  height: 56px;
   box-shadow: 0 -2px 12px rgba(42, 82, 152, 0.06);
 }
+
 
 .bottom-nav a {
   color: #1a237e;
