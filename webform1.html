@@ -125,7 +125,7 @@ document.getElementById("sendBtn").addEventListener("click", function(e){
 
   // ✅ JSONP request instead of fetch
   const script = document.createElement("script");
-  script.src = "https://script.google.com/macros/s/AKfycbwoWb1DRIJSvdtiQLTWt0Xt8QPMppaEoo2NsG07f4vopRpIYIuihxPuRaFsqiPCWA8RFg/exec"
+  script.src = "https://script.google.com/macros/s/AKfycby9cUpxX9ImZwGE9DIBu9M9gJpgupb0ZulZ8QV4VtgWYkpWXy5GhJzmlmnjH7yKH-5FgQ/exec"
     + "?callback=handleResponse"
     + "&data=" + encodeURIComponent(JSON.stringify(payload));
   document.body.appendChild(script);
