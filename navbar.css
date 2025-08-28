@@ -14,7 +14,9 @@
   z-index: 1000;
   box-shadow: 0 -2px 12px rgba(42, 82, 152, 0.06);
 }
-
+ /* ✅ force navbar taller */
+  min-height: 70px; /* try 70–80px for mobile */
+}
 
 .bottom-nav a {
   color: #1a237e;
