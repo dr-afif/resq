@@ -119,7 +119,7 @@ document.getElementById("sendBtn").addEventListener("click", function(e){
   let message = `*REFERRAL CASE*\n\n*Name*: ${name}\n*Mrn/ic*: ${mrn}\n\n*From*: ${from}\n*Working Diagnosis*: ${diagnosis}\n*Referred from*: ${referred}\n*Received by*: ${received}\n*Primary team*: ${dept} - ${mo}\n*Uptriage to*: ${uptriage}\n\n*Plan*: ${plan}`;
 
   // Send to Google Sheets
-  fetch('https://script.google.com/macros/s/AKfycbyY36WG1Hasf3izCvKDwEdvR9ND9SeYldALwJJCA1tzJoWgjNtSDpDQdcpMuL02SWh67A/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbx1QS-3Ywc794-i7n_Kd0TJgWqKEzNl-Oiu2hzjuxa-m7VNHFxI396sAunFuBJiAmgXuQ/exec', {
     method: 'POST',
     body: JSON.stringify({
       name, mrn, from, diagnosis, referred, received, dept, mo, uptriage, plan
