@@ -14,13 +14,15 @@
   <form id="whatsappForm">
     
     <div class="user-box">
-      <input type="text" id="name" required="">
       <label>Patient's Name</label>
+      <input type="text" id="name" required="">
+      
     </div>
 
     <div class="user-box">
-      <input type="text" id="mrn" required="">
       <label>Patient's MRN / IC</label>
+      <input type="text" id="mrn" required="">
+      
     </div>
 
     <fieldset class="radio-container-1">
@@ -38,28 +40,33 @@
     </fieldset>
 
     <div class="user-box">
-      <input type="text" id="workingDiagnosis" required="">
       <label>Working Diagnosis</label>
+      <input type="text" id="workingDiagnosis" required="">
+      
     </div>
 
     <div class="user-box">
-      <input type="text" id="referredFrom" required="">
       <label>Referred from (MO / SP name)</label>
+      <input type="text" id="referredFrom" required="">
+      
     </div>
 
     <div class="user-box">
-      <input type="text" id="receivedBy" required="">
       <label>Received by (MO RESQ name)</label>
+      <input type="text" id="receivedBy" required="">
+      
     </div>
 
     <div class="user-box">
-      <input type="text" id="primaryDept" required="">
       <label>Primary Team (Department)</label>
+      <input type="text" id="primaryDept" required="">
+      
     </div>
 
     <div class="user-box">
-      <input type="text" id="primaryMO" required="">
       <label>Primary Team (MO Name)</label>
+      <input type="text" id="primaryMO" required="">
+      
     </div>
 
     <fieldset class="radio-container-2">
@@ -80,8 +87,8 @@
     </fieldset>
 
     <div class="user-box">
-      <textarea id="plan" rows="3" style="width: 100%; background: transparent; color: #fff; border: none; border-bottom: 1px solid #fff; resize: none;" required></textarea>
-      <label>Plan</label>
+      <label for="plan">Plan</label>
+      <textarea id="plan" rows="3" required=""></textarea>
     </div>
 
     <center>
@@ -111,7 +118,18 @@ document.getElementById("sendBtn").addEventListener("click", function(e){
 
   let message = `*REFERRAL CASE*\n\n*Name*: ${name}\n*Mrn/ic*: ${mrn}\n\n*From*: ${from}\n*Working Diagnosis*: ${diagnosis}\n*Referred from*: ${referred}\n*Received by*: ${received}\n*Primary team*: ${dept} - ${mo}\n*Uptriage to*: ${uptriage}\n\n*Plan*: ${plan}`;
 
-  let groupID = "YOUR_GROUP_CHAT_ID"; // Replace with actual group chat ID
+  // Send to Google Sheets
+  fetch('https://script.google.com/macros/s/AKfycbyY36WG1Hasf3izCvKDwEdvR9ND9SeYldALwJJCA1tzJoWgjNtSDpDQdcpMuL02SWh67A/exec', {
+    method: 'POST',
+    body: JSON.stringify({
+      name, mrn, from, diagnosis, referred, received, dept, mo, uptriage, plan
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  // Send to WhatsApp
   window.open(`https://wa.me/601119827167?text=${encodeURIComponent(message)}`, "_blank");
 });
 </script>
