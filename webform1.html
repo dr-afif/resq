@@ -118,21 +118,33 @@ document.getElementById("sendBtn").addEventListener("click", function(e){
 
   let message = `*REFERRAL CASE*\n\n*Name*: ${name}\n*Mrn/ic*: ${mrn}\n\n*From*: ${from}\n*Working Diagnosis*: ${diagnosis}\n*Referred from*: ${referred}\n*Received by*: ${received}\n*Primary team*: ${dept} - ${mo}\n*Uptriage to*: ${uptriage}\n\n*Plan*: ${plan}`;
 
-  // Send to Google Sheets
-  fetch('https://script.google.com/macros/s/AKfycbx1QS-3Ywc794-i7n_Kd0TJgWqKEzNl-Oiu2hzjuxa-m7VNHFxI396sAunFuBJiAmgXuQ/exec', {
-    method: 'POST',
-    body: JSON.stringify({
-      name, mrn, from, diagnosis, referred, received, dept, mo, uptriage, plan
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+  // ✅ Build payload
+  const payload = {
+    name, mrn, from, diagnosis, referred, received, dept, mo, uptriage, plan
+  };
 
-  // Send to WhatsApp
+  // ✅ JSONP request instead of fetch
+  const script = document.createElement("script");
+  script.src = "https://script.google.com/macros/s/AKfycbwoWb1DRIJSvdtiQLTWt0Xt8QPMppaEoo2NsG07f4vopRpIYIuihxPuRaFsqiPCWA8RFg/exec"
+    + "?callback=handleResponse"
+    + "&data=" + encodeURIComponent(JSON.stringify(payload));
+  document.body.appendChild(script);
+
+  // ✅ WhatsApp
   window.open(`https://wa.me/601119827167?text=${encodeURIComponent(message)}`, "_blank");
 });
+
+// ✅ Callback for JSONP
+function handleResponse(data) {
+  console.log("Google Sheets Response:", data);
+  if (data.status === "success") {
+    alert("✅ Case saved to Google Sheets!");
+  } else {
+    alert("⚠️ Error: " + (data.message || "Unable to save"));
+  }
+}
 </script>
+
 
 <div id="navbar-container"></div>
     <script>
