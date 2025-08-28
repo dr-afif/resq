@@ -306,3 +306,32 @@ legend {
     padding: 0.7rem 0.5rem;
   }
 }
+
+#sendBtn {
+  display: inline-block;
+  background: linear-gradient(90deg, #2a5298 0%, #1e3c72 100%);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.85rem 2.2rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.08rem;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(42, 82, 152, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: 1.2rem;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+#sendBtn:hover {
+  background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+  box-shadow: 0 4px 16px rgba(42, 82, 152, 0.13);
+  color: #fff;
+}
+
+#sendBtn span {
+  display: none;
+}

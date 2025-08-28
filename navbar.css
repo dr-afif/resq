@@ -8,8 +8,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 8px 0; /* normal padding */
-  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); /* extra safe area */
+  padding: 14px 0; /* normal padding */
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); /* extra safe area */
   box-sizing: border-box;
   z-index: 1000;
   box-shadow: 0 -2px 12px rgba(42, 82, 152, 0.06);
