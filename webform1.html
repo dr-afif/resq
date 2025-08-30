@@ -34,10 +34,19 @@
       <input type="radio" id="fromPKU" name="from" value="PKU">
       <label for="fromPKU">PKU</label>
 
+      <input type="radio" id="fromOther" name="from" value="Other">
+      <label for="fromOther">Others</label>
+
       <div class="glider-container">
         <div class="glider"></div>
       </div>
     </fieldset>
+
+    <!-- Add this after the from fieldset -->
+    <div class="user-box other-input-container" id="otherInputContainer" style="display: none;">
+      <label for="otherInput">Please specify "Others"</label>
+      <input type="text" id="otherInput" placeholder="Referred from where?">
+    </div>
 
     <div class="user-box">
       <label>Working Diagnosis</label>
@@ -102,12 +111,47 @@
 </div>
 
 <script>
+  // Function to show/hide other input field
+function toggleOtherInput() {
+  const otherRadio = document.getElementById('fromOther');
+  const otherInputContainer = document.getElementById('otherInputContainer');
+  const otherInput = document.getElementById('otherInput');
+  
+  if (otherRadio.checked) {
+    otherInputContainer.style.display = 'block';
+    setTimeout(() => {
+      otherInputContainer.classList.add('show');
+    }, 10);
+    otherInput.setAttribute('required', 'true');
+  } else {
+    otherInputContainer.classList.remove('show');
+    setTimeout(() => {
+      otherInputContainer.style.display = 'none';
+    }, 300);
+    otherInput.removeAttribute('required');
+    otherInput.value = '';
+  }
+}
+
+// Add event listeners to all from radio buttons
+document.querySelectorAll('input[name="from"]').forEach(radio => {
+  radio.addEventListener('change', toggleOtherInput);
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', toggleOtherInput);
 document.getElementById("sendBtn").addEventListener("click", function(e){
   e.preventDefault();
 
   let name = document.getElementById("name").value;
   let mrn = document.getElementById("mrn").value;
   let from = document.querySelector("input[name='from']:checked").value;
+  
+  // If "Other" is selected, use the text input value
+  if (from === "Other") {
+    from = document.getElementById("otherInput").value || "Other";
+  }
+  
   let diagnosis = document.getElementById("workingDiagnosis").value;
   let referred = document.getElementById("referredFrom").value;
   let received = document.getElementById("receivedBy").value;

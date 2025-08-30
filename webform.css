@@ -338,3 +338,19 @@ legend {
     font-size: 16px !important;
   }
 }
+
+/* Style for the other input container */
+.other-input-container {
+  transition: all 0.2s ease;
+  margin-top: 0rem;
+  margin-bottom: 1rem !important;
+}
+
+.other-input-container.show {
+  display: block !important;
+}
+
+/* Adjust spacing for the radio container */
+.radio-container-1 {
+  margin-bottom: 0.5rem;
+}
