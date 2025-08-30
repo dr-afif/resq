@@ -12,6 +12,11 @@ html, body {
   text-size-adjust: 100%;
 }
 
+/* Add padding to body to account for fixed navbar */
+body {
+  padding-bottom: 80px; /* Height of navbar + extra space */
+}
+
 /* Container for better mobile control */
 .container {
   width: 100%;
@@ -175,6 +180,7 @@ legend {
   box-shadow: 0 2px 8px rgba(42, 82, 152, 0.08);
   transition: background 0.2s, box-shadow 0.2s;
   margin-top: 1rem;
+  margin-bottom: 1rem; /* Added margin at bottom */
   text-decoration: none;
   cursor: pointer;
   position: relative;
@@ -200,6 +206,7 @@ legend {
 @media (max-width: 600px) {
   body {
     padding: 0.5rem;
+    padding-bottom: 70px; /* Adjusted for navbar height */
     /* Prevent scaling issues on mobile */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -247,11 +254,16 @@ legend {
     font-size: 0.95rem;
     width: 100%;
     max-width: 280px;
+    margin-bottom: 0.5rem; /* Added bottom margin */
   }
 }
 
 /* For very small devices */
 @media (max-width: 380px) {
+  body {
+    padding-bottom: 60px; /* Adjusted for smaller navbar */
+  }
+  
   .radio-container-1,
   .radio-container-2 {
     gap: 0.5rem;
@@ -291,6 +303,10 @@ legend {
 
 /* Safe area handling for notched phones */
 @supports(padding: max(0px)) {
+  body {
+    padding-bottom: max(80px, env(safe-area-inset-bottom));
+  }
+  
   .login-box {
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
@@ -300,6 +316,18 @@ legend {
   .radio-container-2 {
     padding-left: max(0.8rem, env(safe-area-inset-left));
     padding-right: max(0.8rem, env(safe-area-inset-right));
+  }
+  
+  @media (max-width: 600px) {
+    body {
+      padding-bottom: max(70px, env(safe-area-inset-bottom));
+    }
+  }
+  
+  @media (max-width: 380px) {
+    body {
+      padding-bottom: max(60px, env(safe-area-inset-bottom));
+    }
   }
 }
 
