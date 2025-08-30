@@ -178,7 +178,7 @@
   }
 }
 
-/* Dark mode support */
+/* FIXED Dark mode support */
 @media (prefers-color-scheme: dark) {
   .bottom-nav {
     background: #1e293b;
@@ -187,7 +187,11 @@
   }
   
   .bottom-nav a {
-    color: #cbd5e1;
+    color: #e2e8f0; /* Lighter color for better contrast */
+  }
+  
+  .bottom-nav a i {
+    color: #e2e8f0; /* Ensure icons are visible in dark mode */
   }
   
   .bottom-nav a.active,
@@ -196,7 +200,22 @@
     color: #60a5fa;
   }
   
+  .bottom-nav a.active i {
+    color: #60a5fa; /* Ensure active icons are visible */
+  }
+  
   .bottom-nav a.active::before {
     background: #60a5fa;
+  }
+  
+  /* Fix for images in dark mode */
+  .bottom-nav img {
+    filter: brightness(0.9) invert(0.8); /* Better visibility in dark mode */
+  }
+  
+  .bottom-nav a.active img,
+  .bottom-nav a:focus img,
+  .bottom-nav a:hover img {
+    filter: brightness(0) saturate(100%) invert(68%) sepia(51%) saturate(478%) hue-rotate(186deg) brightness(98%) contrast(93%);
   }
 }
