@@ -14,6 +14,21 @@
   box-sizing: border-box;
   z-index: 1000;
   box-shadow: 0 -2px 12px rgba(42, 82, 152, 0.06);
+  /* Ensure navbar stays at true bottom */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.bottom-nav::before {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: env(safe-area-inset-bottom, 0px);
+  height: constant(safe-area-inset-bottom, 0px);
+  background: inherit;
+  z-index: -1;
 }
 
 .bottom-nav a {
@@ -30,12 +45,14 @@
   position: relative;
   transition: all 0.2s ease;
   min-width: 0; /* Prevents flex items from overflowing */
+  padding: 8px 0;
 }
 
 .bottom-nav a i {
   font-size: 20px;
   margin-bottom: 4px;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .bottom-nav a.active,
@@ -66,6 +83,7 @@
   margin: 0 auto 2px;
   filter: none;
   transition: filter 0.2s;
+  flex-shrink: 0;
 }
 
 .bottom-nav a.active img,
@@ -84,6 +102,16 @@
   text-overflow: ellipsis;
   max-width: 100%; /* Prevents text from overflowing */
   padding: 0 4px;
+}
+
+/* Handle mobile browser viewport changes */
+@viewport {
+  width: device-width;
+  height: device-height;
+  zoom: 1.0;
+  min-zoom: 1.0;
+  max-zoom: 1.0;
+  user-zoom: fixed;
 }
 
 /* Improved responsiveness for various devices */
@@ -217,5 +245,20 @@
   .bottom-nav a:focus img,
   .bottom-nav a:hover img {
     filter: brightness(0) saturate(100%) invert(68%) sepia(51%) saturate(478%) hue-rotate(186deg) brightness(98%) contrast(93%);
+  }
+}
+
+/* JavaScript helper class for viewport changes */
+.viewport-height {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Prevent layout shifts when URL bar hides */
+@media (max-height: 700px) {
+  .bottom-nav {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
   }
 }
