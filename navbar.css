@@ -8,8 +8,9 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 70px; /* ⬅️ fixed height so background always covers */
+  height: 70px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: constant(safe-area-inset-bottom, 0px); /* For iOS 11.0-11.2 */
   box-sizing: border-box;
   z-index: 1000;
   box-shadow: 0 -2px 12px rgba(42, 82, 152, 0.06);
@@ -18,26 +19,44 @@
 .bottom-nav a {
   flex: 1;
   text-align: center;
-  color: #444;
+  color: #64748b;
   text-decoration: none;
   font-size: 12px;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* center vertically */
+  justify-content: center;
   align-items: center;
   height: 100%;
+  position: relative;
+  transition: all 0.2s ease;
+  min-width: 0; /* Prevents flex items from overflowing */
 }
 
 .bottom-nav a i {
   font-size: 20px;
   margin-bottom: 4px;
+  transition: all 0.2s ease;
 }
-
 
 .bottom-nav a.active,
 .bottom-nav a:focus,
 .bottom-nav a:hover {
   color: #1976d2;
+}
+
+.bottom-nav a.active {
+  font-weight: 600;
+}
+
+/* Active indicator */
+.bottom-nav a.active::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  background: #1976d2;
+  border-radius: 50%;
 }
 
 .bottom-nav img {
@@ -60,18 +79,124 @@
   margin-top: 2px;
   color: inherit;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Prevents text from overflowing */
+  padding: 0 4px;
 }
 
+/* Improved responsiveness for various devices */
 @media (max-width: 600px) {
   .bottom-nav {
-    height: 48px;
+    height: 60px;
     padding: 2px 0;
   }
+  
+  .bottom-nav a {
+    font-size: 11px;
+  }
+  
+  .bottom-nav a i {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+  
   .bottom-nav img {
     width: 22px;
     height: 22px;
   }
+  
   .bottom-nav span {
-    font-size: 11px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .bottom-nav {
+    height: 56px;
+  }
+  
+  .bottom-nav a {
+    font-size: 10px;
+  }
+  
+  .bottom-nav a i {
+    font-size: 16px;
+  }
+  
+  .bottom-nav span {
+    font-size: 9px;
+  }
+}
+
+/* For very small devices (like iPhone SE) */
+@media (max-width: 320px) {
+  .bottom-nav {
+    height: 52px;
+  }
+  
+  .bottom-nav a {
+    font-size: 9px;
+  }
+  
+  .bottom-nav a i {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  
+  .bottom-nav span {
+    display: none; /* Hide text on very small screens */
+  }
+  
+  .bottom-nav a.active::before {
+    top: 6px;
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* Add safe area support for notched devices */
+@supports(padding: max(0px)) {
+  .bottom-nav {
+    padding-bottom: max(env(safe-area-inset-bottom), 8px);
+  }
+}
+
+/* Accessibility improvements */
+.bottom-nav a:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav a,
+  .bottom-nav a i,
+  .bottom-nav img {
+    transition: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .bottom-nav {
+    background: #1e293b;
+    border-top: 1.5px solid #334155;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .bottom-nav a {
+    color: #cbd5e1;
+  }
+  
+  .bottom-nav a.active,
+  .bottom-nav a:focus,
+  .bottom-nav a:hover {
+    color: #60a5fa;
+  }
+  
+  .bottom-nav a.active::before {
+    background: #60a5fa;
   }
 }
