@@ -17,11 +17,11 @@ html, body {
   box-sizing: border-box;
 }
 
-/* --- Modern, minimal radio button styles --- */
+/* --- Fixed Radio Button Styles --- */
 .radio-container-1,
 .radio-container-2 {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
   align-items: center;
   background: #f5f7fa;
   border-radius: 7px;
@@ -29,6 +29,9 @@ html, body {
   margin-bottom: 0.8rem;
   flex-direction: row;
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .radio-container-1 label,
@@ -42,6 +45,7 @@ html, body {
   padding: 0;
   transition: color 0.2s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .radio-container-1 input[type="radio"],
@@ -125,6 +129,7 @@ fieldset {
   margin-bottom: 1rem;
   padding: 0;
   width: 100%;
+  max-width: 100%;
 }
 
 legend {
@@ -133,6 +138,7 @@ legend {
   color: #1a237e;
   margin-bottom: 0.7rem;
   letter-spacing: 0.2px;
+  width: 100%;
 }
 
 /* Remove the glider styles as they're not needed for mobile */
@@ -195,12 +201,14 @@ legend {
     gap: 0.8rem;
     padding: 0.7rem;
     justify-content: flex-start;
+    overflow: hidden;
   }
   
   .radio-container-1 label,
   .radio-container-2 label {
     font-size: 0.9rem;
     margin-right: 0.5rem;
+    white-space: nowrap;
   }
   
   .login-box .user-box {
@@ -226,6 +234,7 @@ legend {
   .radio-container-1,
   .radio-container-2 {
     gap: 0.5rem;
+    padding: 0.6rem;
   }
   
   .radio-container-1 label,
@@ -263,5 +272,11 @@ legend {
   .login-box {
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  
+  .radio-container-1,
+  .radio-container-2 {
+    padding-left: max(0.8rem, env(safe-area-inset-left));
+    padding-right: max(0.8rem, env(safe-area-inset-right));
   }
 }
