@@ -7,6 +7,9 @@ html, body {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
+  /* Prevent zooming issues */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* Container for better mobile control */
@@ -56,6 +59,8 @@ html, body {
   margin-right: 0.4em;
   cursor: pointer;
   flex-shrink: 0;
+  /* Prevent zoom on focus */
+  font-size: 16px;
 }
 
 .login-box {
@@ -71,6 +76,9 @@ html, body {
   flex-direction: column;
   gap: 0.8rem;
   box-sizing: border-box;
+  /* Ensure proper scaling */
+  transform: scale(1);
+  transform-origin: top center;
 }
 
 .login-box h2 {
@@ -80,6 +88,9 @@ html, body {
   color: #1a237e;
   letter-spacing: 0.5px;
   font-size: 1.4rem;
+  /* Prevent text scaling issues */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 .login-box .user-box {
@@ -103,11 +114,15 @@ html, body {
   resize: none;
   box-sizing: border-box;
   -webkit-appearance: none;
+  /* Critical: Prevent iOS zoom */
+  font-size: 16px;
 }
 
 .login-box .user-box textarea {
   font-family: inherit;
   min-height: 70px;
+  /* Critical: Prevent iOS zoom */
+  font-size: 16px;
 }
 
 .login-box .user-box input:focus,
@@ -166,6 +181,9 @@ legend {
   overflow: hidden;
   width: auto;
   text-align: center;
+  /* Prevent text scaling */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 #sendBtn:hover {
@@ -182,6 +200,9 @@ legend {
 @media (max-width: 600px) {
   body {
     padding: 0.5rem;
+    /* Prevent scaling issues on mobile */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   
   .login-box {
@@ -218,7 +239,7 @@ legend {
   .login-box .user-box input,
   .login-box .user-box textarea {
     padding: 10px;
-    font-size: 0.95rem;
+    font-size: 16px; /* Critical for iOS */
   }
   
   #sendBtn {
@@ -258,11 +279,12 @@ legend {
   }
 }
 
-/* Prevent zoom on input focus for iOS */
+/* Critical: Prevent zoom on input focus for iOS */
 @media screen and (max-width: 768px) {
   input[type="text"],
   input[type="number"],
-  textarea {
+  textarea,
+  select {
     font-size: 16px !important; /* Prevents zoom on focus in iOS */
   }
 }
@@ -278,5 +300,13 @@ legend {
   .radio-container-2 {
     padding-left: max(0.8rem, env(safe-area-inset-left));
     padding-right: max(0.8rem, env(safe-area-inset-right));
+  }
+}
+
+/* Additional fix for iOS zoom issues */
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  input, textarea {
+    font-size: 16px !important;
   }
 }
