@@ -1,3 +1,4 @@
+/* Fixed Bottom Navigation CSS */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -10,25 +11,11 @@
   align-items: center;
   height: 70px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  padding-bottom: constant(safe-area-inset-bottom, 0px); /* For iOS 11.0-11.2 */
+  padding-bottom: constant(safe-area-inset-bottom, 0px);
   box-sizing: border-box;
   z-index: 1000;
   box-shadow: 0 -2px 12px rgba(42, 82, 152, 0.06);
-  /* Ensure navbar stays at true bottom */
   transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.bottom-nav::before {
-  content: '';
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: env(safe-area-inset-bottom, 0px);
-  height: constant(safe-area-inset-bottom, 0px);
-  background: inherit;
-  z-index: -1;
 }
 
 .bottom-nav a {
@@ -44,15 +31,24 @@
   height: 100%;
   position: relative;
   transition: all 0.2s ease;
-  min-width: 0; /* Prevents flex items from overflowing */
+  min-width: 0;
   padding: 8px 0;
 }
 
-.bottom-nav a i {
-  font-size: 20px;
-  margin-bottom: 4px;
-  transition: all 0.2s ease;
+.bottom-nav img.nav-icon {
+  width: 28px;
+  height: 28px;
+  display: block;
+  margin: 0 auto 2px;
+  filter: none;
+  transition: filter 0.2s;
   flex-shrink: 0;
+}
+
+.bottom-nav a.active img.nav-icon,
+.bottom-nav a:focus img.nav-icon,
+.bottom-nav a:hover img.nav-icon {
+  filter: brightness(0) saturate(100%) invert(32%) sepia(94%) saturate(747%) hue-rotate(186deg) brightness(92%) contrast(92%);
 }
 
 .bottom-nav a.active,
@@ -76,45 +72,7 @@
   border-radius: 50%;
 }
 
-.bottom-nav img {
-  width: 28px;
-  height: 28px;
-  display: block;
-  margin: 0 auto 2px;
-  filter: none;
-  transition: filter 0.2s;
-  flex-shrink: 0;
-}
-
-.bottom-nav a.active img,
-.bottom-nav a:focus img,
-.bottom-nav a:hover img {
-  filter: brightness(0) saturate(100%) invert(32%) sepia(94%) saturate(747%) hue-rotate(186deg) brightness(92%) contrast(92%);
-}
-
-.bottom-nav span {
-  font-size: 12px;
-  margin-top: 2px;
-  color: inherit;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%; /* Prevents text from overflowing */
-  padding: 0 4px;
-}
-
-/* Handle mobile browser viewport changes */
-@viewport {
-  width: device-width;
-  height: device-height;
-  zoom: 1.0;
-  min-zoom: 1.0;
-  max-zoom: 1.0;
-  user-zoom: fixed;
-}
-
-/* Improved responsiveness for various devices */
+/* Responsive adjustments */
 @media (max-width: 600px) {
   .bottom-nav {
     height: 60px;
@@ -125,18 +83,9 @@
     font-size: 11px;
   }
   
-  .bottom-nav a i {
-    font-size: 18px;
-    margin-bottom: 3px;
-  }
-  
-  .bottom-nav img {
+  .bottom-nav img.nav-icon {
     width: 22px;
     height: 22px;
-  }
-  
-  .bottom-nav span {
-    font-size: 10px;
   }
 }
 
@@ -149,16 +98,12 @@
     font-size: 10px;
   }
   
-  .bottom-nav a i {
-    font-size: 16px;
-  }
-  
-  .bottom-nav span {
-    font-size: 9px;
+  .bottom-nav img.nav-icon {
+    width: 20px;
+    height: 20px;
   }
 }
 
-/* For very small devices (like iPhone SE) */
 @media (max-width: 320px) {
   .bottom-nav {
     height: 52px;
@@ -168,45 +113,14 @@
     font-size: 9px;
   }
   
-  .bottom-nav a i {
-    font-size: 16px;
-    margin-bottom: 2px;
-  }
-  
-  .bottom-nav span {
-    display: none; /* Hide text on very small screens */
-  }
-  
-  .bottom-nav a.active::before {
-    top: 6px;
-    width: 4px;
-    height: 4px;
+  .bottom-nav img.nav-icon {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 1px;
   }
 }
 
-/* Add safe area support for notched devices */
-@supports(padding: max(0px)) {
-  .bottom-nav {
-    padding-bottom: max(env(safe-area-inset-bottom), 8px);
-  }
-}
-
-/* Accessibility improvements */
-.bottom-nav a:focus {
-  outline: 2px solid #1976d2;
-  outline-offset: -2px;
-}
-
-/* Reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  .bottom-nav a,
-  .bottom-nav a i,
-  .bottom-nav img {
-    transition: none;
-  }
-}
-
-/* FIXED Dark mode support */
+/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .bottom-nav {
     background: #1e293b;
@@ -215,11 +129,7 @@
   }
   
   .bottom-nav a {
-    color: #e2e8f0; /* Lighter color for better contrast */
-  }
-  
-  .bottom-nav a i {
-    color: #e2e8f0; /* Ensure icons are visible in dark mode */
+    color: #e2e8f0;
   }
   
   .bottom-nav a.active,
@@ -228,37 +138,17 @@
     color: #60a5fa;
   }
   
-  .bottom-nav a.active i {
-    color: #60a5fa; /* Ensure active icons are visible */
-  }
-  
   .bottom-nav a.active::before {
     background: #60a5fa;
   }
   
-  /* Fix for images in dark mode */
-  .bottom-nav img {
-    filter: brightness(0.9) invert(0.8); /* Better visibility in dark mode */
+  .bottom-nav img.nav-icon {
+    filter: brightness(0.9) invert(0.8);
   }
   
-  .bottom-nav a.active img,
-  .bottom-nav a:focus img,
-  .bottom-nav a:hover img {
+  .bottom-nav a.active img.nav-icon,
+  .bottom-nav a:focus img.nav-icon,
+  .bottom-nav a:hover img.nav-icon {
     filter: brightness(0) saturate(100%) invert(68%) sepia(51%) saturate(478%) hue-rotate(186deg) brightness(98%) contrast(93%);
-  }
-}
-
-/* JavaScript helper class for viewport changes */
-.viewport-height {
-  height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
-}
-
-/* Prevent layout shifts when URL bar hides */
-@media (max-height: 700px) {
-  .bottom-nav {
-    position: -webkit-sticky;
-    position: sticky;
-    bottom: 0;
   }
 }
