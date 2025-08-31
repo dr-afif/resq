@@ -1,6 +1,6 @@
 {
   "name": "RESQ Dashboard",
-  "short_name": "RESQ",
+  "short_name": "RESQ Dashboard",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -18,7 +18,4 @@
     }
   ]
 }
-{
-  "theme_color": "#121212",
-  "background_color": "#121212"
-}
+
