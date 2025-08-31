@@ -10,8 +10,8 @@
   justify-content: space-around;
   align-items: center;
   height: 70px;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  padding-bottom: constant(safe-area-inset-bottom, 0px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 80px) + 20px;
+  padding-bottom: calc(constant(safe-area-inset-bottom, 80px) + 20px); /* iOS 11.0 */
   box-sizing: border-box;
   z-index: 1000;
   box-shadow: 0 -2px 12px rgba(42, 82, 152, 0.06);
