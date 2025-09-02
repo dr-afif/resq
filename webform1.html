@@ -201,7 +201,7 @@ document.getElementById("sendBtn").addEventListener("click", function(e){
 });
 
 // ✅ Callback for JSONP
-function handleResponse(data) {
+window.handleResponse = function (data) {
   console.log("Google Sheets Response:", data);
   if (data.status === "success") {
     alert("✅ Case saved to Google Sheets!");
