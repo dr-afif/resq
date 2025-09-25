@@ -1,4 +1,4 @@
-﻿/* Dashboard surfaces align with the glassmorphic navbar aesthetic */
+/* Dashboard surfaces align with the glassmorphic navbar aesthetic */
 :root {
   --primary: #2563eb;
   --primary-dark: #1e40af;
@@ -33,7 +33,7 @@ html, body {
 }
 
 body {
-  padding: clamp(1.6rem, 6vw, 2.8rem) clamp(1rem, 5vw, 2.6rem) clamp(5.5rem, 9vw, 7rem);
+  padding: clamp(1.6rem, 6vw, 2.8rem) clamp(1rem, 5vw, 2.6rem) clamp(7rem, 12vw, 9rem);
 }
 
 header,
@@ -178,7 +178,7 @@ h2, p {
 
 @media (max-width: 820px) {
   body {
-    padding: clamp(1.2rem, 5vw, 2rem) clamp(0.9rem, 6vw, 2.2rem) clamp(5rem, 10vw, 6.5rem);
+    padding: clamp(1.2rem, 5vw, 2rem) clamp(0.9rem, 6vw, 2.2rem) clamp(6.5rem, 14vw, 8.5rem);
   }
 
   header,
@@ -285,7 +285,7 @@ h2, p {
 
 @supports (padding: max(0px)) {
   body {
-    padding-bottom: max(90px, env(safe-area-inset-bottom));
+    padding-bottom: max(120px, env(safe-area-inset-bottom));
   }
 
   .login-box {
@@ -301,13 +301,13 @@ h2, p {
 
   @media (max-width: 600px) {
     body {
-      padding-bottom: max(85px, env(safe-area-inset-bottom));
+      padding-bottom: max(115px, env(safe-area-inset-bottom));
     }
   }
 
   @media (max-width: 380px) {
     body {
-      padding-bottom: max(78px, env(safe-area-inset-bottom));
+      padding-bottom: max(105px, env(safe-area-inset-bottom));
     }
   }
 }

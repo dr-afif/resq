@@ -46,7 +46,7 @@ body {
 }
 
 body {
-  padding-bottom: clamp(72px, 10vh, 110px);
+  padding-bottom: clamp(110px, 14vh, 160px);
   position: relative;
   padding-inline: clamp(0.75rem, 4vw, 2rem);
 }
@@ -394,7 +394,7 @@ center {
 
   body {
     padding: 0.75rem;
-    padding-bottom: max(68px, 8vh);
+    padding-bottom: max(120px, 12vh);
   }
 
   .login-box {
@@ -453,7 +453,7 @@ center {
 
 @supports (padding: max(0px)) {
   body {
-    padding-bottom: max(80px, env(safe-area-inset-bottom));
+    padding-bottom: max(140px, env(safe-area-inset-bottom));
   }
 
   .login-box {
@@ -469,13 +469,13 @@ center {
 
   @media (max-width: 600px) {
     body {
-      padding-bottom: max(70px, env(safe-area-inset-bottom));
+      padding-bottom: max(130px, env(safe-area-inset-bottom));
     }
   }
 
   @media (max-width: 380px) {
     body {
-      padding-bottom: max(62px, env(safe-area-inset-bottom));
+      padding-bottom: max(120px, env(safe-area-inset-bottom));
     }
   }
 }
