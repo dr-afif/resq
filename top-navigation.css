@@ -113,10 +113,9 @@ body {
 
     .top-nav .nav-logo img {
         height: 38px;
-        /* Slightly larger base for better visibility */
         width: auto;
-        transform: scale(0.5);
-        /* Reduce by half as requested */
+        transform: scale(0.25);
+        /* Further reduced by half */
     }
 
     .top-nav .nav-title {
