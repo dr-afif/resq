@@ -288,8 +288,8 @@ center {
 
 @media (max-width: 600px) {
   body {
-    padding-top: 180px !important;
-    /* Increased for better nav clearance */
+    padding-top: 100px !important;
+    /* Adjusted for compact header */
   }
 
   html,
@@ -300,8 +300,8 @@ center {
   body {
     padding: 0.75rem;
     padding-bottom: max(120px, 12vh);
-    padding-top: 180px !important;
-    /* Maintain nav clearance */
+    padding-top: 100px !important;
+    /* Adjusted for compact header */
   }
 
   .login-box {

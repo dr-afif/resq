@@ -68,8 +68,8 @@ body {
 /* Extra padding for mobile stacked nav */
 @media (max-width: 600px) {
     body {
-        padding-top: 180px !important;
-        /* Increased for better clearance */
+        padding-top: 100px !important;
+        /* Adjusted for compact header */
     }
 }
 

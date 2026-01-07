@@ -206,8 +206,8 @@ p {
 
 @media (max-width: 600px) {
   body {
-    padding-top: 180px !important;
-    /* Increased for better nav clearance */
+    padding-top: 100px !important;
+    /* Adjusted for compact header */
   }
 
   #logo {
