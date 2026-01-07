@@ -288,8 +288,8 @@ center {
 
 @media (max-width: 600px) {
   body {
-    padding-top: 160px !important;
-    /* Extra padding for stacked mobile nav */
+    padding-top: 180px !important;
+    /* Increased for better nav clearance */
   }
 
   html,
@@ -300,7 +300,7 @@ center {
   body {
     padding: 0.75rem;
     padding-bottom: max(120px, 12vh);
-    padding-top: 160px !important;
+    padding-top: 180px !important;
     /* Maintain nav clearance */
   }
 

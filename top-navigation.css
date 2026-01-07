@@ -67,8 +67,8 @@ body {
 /* Extra padding for mobile stacked nav */
 @media (max-width: 600px) {
     body {
-        padding-top: 140px;
-        /* ~80px nav +gap + padding */
+        padding-top: 180px !important;
+        /* Increased for better clearance */
     }
 }
 
@@ -112,10 +112,9 @@ body {
     }
 
     .top-nav .nav-logo img {
-        height: 38px;
+        height: 16px !important;
+        /* Directly set to 16px (half of 32px) */
         width: auto;
-        transform: scale(0.25);
-        /* Further reduced by half */
     }
 
     .top-nav .nav-title {
