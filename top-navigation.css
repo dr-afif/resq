@@ -18,7 +18,7 @@
     transition: height 0.3s ease;
 }
 
-.top-nav .nav-logo {
+.top-nav .nav-brand {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -29,7 +29,8 @@
     letter-spacing: -0.02em;
 }
 
-.top-nav .nav-logo img {
+/* Target the image directly since it has class 'nav-logo' */
+.top-nav img.nav-logo {
     height: 32px;
     width: auto;
 }
@@ -111,7 +112,7 @@ body {
         justify-content: center;
     }
 
-    .top-nav .nav-logo img {
+    .top-nav img.nav-logo {
         height: 16px !important;
         /* Directly set to 16px (half of 32px) */
         width: auto;
