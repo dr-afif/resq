@@ -476,19 +476,19 @@
 
         updatePanel();
 
-        // Interval for updating panel AND syncing to cloud (Cleaned up logic)
+        // Interval for updating panel AND syncing to cloud
         setInterval(() => {
             const zones = getZoneSummary(); // Re-calculate
             updatePanel(); // Update UI
 
-            // Smart Sync: Only upload if data changed
+            // Cloud Sync logic
             const currentJson = JSON.stringify(zones);
             if (currentJson !== lastSentJson) {
-                console.log("Zone data changed, syncing to cloud...");
+                console.log("Zone data changed, syncing to cloud... New:", currentJson);
                 postToGoogleSheet(zones); // Sync to Cloud
                 lastSentJson = currentJson;
             }
-        }, 3000); // Check every 3 seconds (it's cheap to check locally)
+        }, 5000); // Increased to 5s to be safe, but 3s is fine. Let's keep 3s but add logging.
 
 
         startLongPolling();
