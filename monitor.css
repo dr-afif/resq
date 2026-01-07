@@ -185,9 +185,43 @@
 }
 
 /* Responsive */
+/* Responsive Horizontal Scroll for Mobile */
 @media (max-width: 768px) {
+    .monitor-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
     .stats-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 16px;
+        padding: 10px 20px 30px;
+        /* Right padding for end of list, Bottom for shadow/scrollbar */
+        margin: 0;
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scroll on iOS */
+    }
+
+    /* Hide scrollbar for cleaner look */
+    .stats-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .stats-grid {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .stat-card {
+        min-width: 85%;
+        /* Show part of next card to encourage scroll */
+        max-width: 85%;
+        scroll-snap-align: center;
+        margin: 0;
     }
 
     .seen-count {
