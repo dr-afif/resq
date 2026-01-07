@@ -110,11 +110,12 @@ body {
        Usually centering strictly the image is enough. */
     .top-nav .nav-logo {
         justify-content: center;
+        padding-top: 6px;
     }
 
     .top-nav img.nav-logo {
-        height: 32px !important;
-        /* Directly set to 16px (half of 32px) */
+        height: 48px !important;
+        /* Directly set to 48px (slightly smaller than 64px) */
         width: auto;
     }
 
