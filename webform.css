@@ -42,7 +42,7 @@ body {
 
 body {
   padding-bottom: clamp(120px, 15vh, 180px);
-  padding-top: calc(clamp(60px, 10vh, 80px) + 1.5rem);
+  padding-top: calc(clamp(60px, 10vh, 80px) + 2.5rem);
   padding-inline: clamp(0.75rem, 4vw, 2rem);
 }
 
@@ -287,6 +287,10 @@ center {
 }
 
 @media (max-width: 600px) {
+  body {
+    padding-top: 160px !important;
+    /* Extra padding for stacked mobile nav */
+  }
 
   html,
   body {
@@ -296,6 +300,8 @@ center {
   body {
     padding: 0.75rem;
     padding-bottom: max(120px, 12vh);
+    padding-top: 160px !important;
+    /* Maintain nav clearance */
   }
 
   .login-box {

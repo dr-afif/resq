@@ -42,7 +42,7 @@ body {
 }
 
 body {
-  padding: calc(clamp(60px, 10vh, 80px) + 2rem) clamp(1rem, 5vw, 2.6rem) clamp(8rem, 15vw, 10rem);
+  padding: calc(clamp(60px, 10vh, 80px) + 2.5rem) clamp(1rem, 5vw, 2.6rem) clamp(8rem, 15vw, 10rem);
 }
 
 header,
@@ -205,6 +205,11 @@ p {
 }
 
 @media (max-width: 600px) {
+  body {
+    padding-top: 160px !important;
+    /* Extra padding for stacked mobile nav */
+  }
+
   #logo {
     width: clamp(100px, 45vw, 130px);
   }
