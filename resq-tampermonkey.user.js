@@ -4,7 +4,9 @@
 // @version      3.4
 // @description  RESQ panel + overdue tracking + Telegram long-polling + hi-res /screenshot (as document) and /screenshot_photo
 // @match        https://putrahis.hsaas.upm.edu.my/*
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_registerMenuCommand
 // @run-at       document-idle
 // ==/UserScript==
 
@@ -12,7 +14,28 @@
     'use strict';
 
     // ====== CONFIG ======
-    const TELEGRAM_BOT_TOKEN = '8155683726:AAGmiAOA4UpDEKaY6u1s8xjNWLEh-6F4nXk';
+    let TELEGRAM_BOT_TOKEN = GM_getValue('TELEGRAM_BOT_TOKEN', '');
+
+    // Prompt user if token is missing
+    if (!TELEGRAM_BOT_TOKEN) {
+        const input = prompt('Please enter your Telegram Bot Token for RESQ Script:', '');
+        if (input) {
+            TELEGRAM_BOT_TOKEN = input.trim();
+            GM_setValue('TELEGRAM_BOT_TOKEN', TELEGRAM_BOT_TOKEN);
+        } else {
+            console.warn('Telegram Bot Token not provided. Telegram features will be disabled.');
+        }
+    }
+
+    // Add menu command to change token
+    GM_registerMenuCommand('Change Telegram Bot Token', () => {
+        const current = GM_getValue('TELEGRAM_BOT_TOKEN', '');
+        const input = prompt('Enter new Telegram Bot Token:', current);
+        if (input !== null) {
+            GM_setValue('TELEGRAM_BOT_TOKEN', input.trim());
+            location.reload();
+        }
+    });
     // Replace this with your Google Apps Script Web App URL
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMYWwVyXIuehLiModrZqciIFH_L82R5m0b1TuHjABkWAUQZtIZaF6zecF13-yvrLbm/exec';
 
@@ -403,6 +426,7 @@
     }
 
     function startLongPolling() {
+        if (!TELEGRAM_BOT_TOKEN) return; // Don't start if no token
         console.log('Starting Telegram long-polling...');
         longPollTelegram().catch(err => {
             console.error('Failed to start long-polling:', err);
