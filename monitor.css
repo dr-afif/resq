@@ -206,9 +206,10 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         /* Force 3 columns */
-        gap: 8px;
-        /* Tight gap */
-        padding: 0 10px;
+        gap: 12px;
+        /* Increased gap */
+        padding: 0 16px;
+        /* More side padding */
         overflow: visible;
         /* No scroll */
     }

@@ -60,21 +60,19 @@
     font-weight: 600;
 }
 
-/* Adjust body padding for top nav */
 body {
-    padding-top: calc(clamp(60px, 10vh, 80px) + 1.5rem + env(safe-area-inset-top, 0));
+    padding-top: calc(clamp(60px, 10vh, 80px) + 2rem + env(safe-area-inset-top, 0));
 }
 
-@media (prefers-color-scheme: dark) {
-    .top-nav {
-        background: rgba(28, 28, 30, 0.65);
-        border-bottom-color: rgba(255, 255, 255, 0.12);
-    }
-
-    .top-nav .nav-link {
-        color: #ebebf5;
+/* Extra padding for mobile stacked nav */
+@media (max-width: 600px) {
+    body {
+        padding-top: 140px;
+        /* ~80px nav +gap + padding */
     }
 }
+
+/* Dark mode support removed by user request */
 
 @media (max-width: 600px) {
     .top-nav {
@@ -113,8 +111,16 @@ body {
         justify-content: center;
     }
 
-    .top-nav .nav-logo span {
-        display: inline;
-        /* Show text? User didn't specify, but centering implies importance */
+    .top-nav .nav-logo img {
+        height: 38px;
+        /* Slightly larger base for better visibility */
+        width: auto;
+        transform: scale(0.5);
+        /* Reduce by half as requested */
+    }
+
+    .top-nav .nav-title {
+        display: none !important;
+        /* Force hide the RESQ text */
     }
 }

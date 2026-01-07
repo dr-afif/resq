@@ -228,56 +228,7 @@ p {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --surface-glass: rgba(28, 28, 30, 0.65);
-    --surface-glass-soft: rgba(44, 44, 46, 0.45);
-    --surface-border: rgba(255, 255, 255, 0.12);
-    --surface-border-strong: rgba(255, 255, 255, 0.25);
-    --text-heading: #ffffff;
-    --text-body: #ebebf5;
-    --shadow-elevated: 0 20px 45px rgba(0, 0, 0, 0.3);
-    --shadow-intense: 0 30px 60px rgba(0, 0, 0, 0.45);
-  }
-
-  html,
-  body {
-    background: #000000;
-    background-image:
-      radial-gradient(at 0% 0%, hsla(220, 100%, 15%, 1) 0, transparent 50%),
-      radial-gradient(at 50% 0%, hsla(240, 100%, 10%, 1) 0, transparent 50%),
-      radial-gradient(at 100% 0%, hsla(280, 100%, 12%, 1) 0, transparent 50%),
-      radial-gradient(at 50% 100%, hsla(210, 100%, 8%, 1) 0, transparent 50%);
-  }
-
-  header,
-  #app-header {
-    background: var(--surface-glass);
-    border-color: var(--surface-border);
-  }
-
-  header::before,
-  #app-header::before {
-    background: linear-gradient(130deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
-  }
-
-  .card {
-    background: var(--surface-glass);
-    border-color: var(--surface-border);
-  }
-
-  .card:hover,
-  .card:focus-within {
-    background: rgba(44, 44, 46, 0.85);
-    border-color: var(--surface-border-strong);
-  }
-
-  .card ul li {
-    background: rgba(10, 132, 255, 0.15);
-    border-color: rgba(10, 132, 255, 0.25);
-    color: #0a84ff;
-  }
-}
+/* Dark mode support removed by user request */
 
 @supports (padding: max(0px)) {
   body {
