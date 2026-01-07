@@ -186,45 +186,133 @@
 
 /* Responsive */
 /* Responsive Horizontal Scroll for Mobile */
+/* Responsive Compact Mobile Layout */
 @media (max-width: 768px) {
     .monitor-container {
         width: 100%;
-        max-width: 100%;
-        padding: 0;
         margin-bottom: 20px;
+        /* Padding handled by grid gap */
+    }
+
+    .header-section {
+        margin-bottom: 15px;
+    }
+
+    .header-section h1 {
+        font-size: 1.5rem;
     }
 
     .stats-grid {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        gap: 16px;
-        padding: 10px 20px 30px;
-        /* Right padding for end of list, Bottom for shadow/scrollbar */
-        margin: 0;
-        -webkit-overflow-scrolling: touch;
-        /* Smooth scroll on iOS */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* Force 3 columns */
+        gap: 8px;
+        /* Tight gap */
+        padding: 0 10px;
+        overflow: visible;
+        /* No scroll */
     }
 
-    /* Hide scrollbar for cleaner look */
+    /* Hide scrollbar styles not needed anymore */
     .stats-grid::-webkit-scrollbar {
         display: none;
     }
 
-    .stats-grid {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+    .stat-card {
+        min-width: 0;
+        /* Allow shrinking */
+        max-width: none;
+        padding: 12px 8px;
+        /* Compact padding */
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
-    .stat-card {
-        min-width: 85%;
-        /* Show part of next card to encourage scroll */
-        max-width: 85%;
-        scroll-snap-align: center;
-        margin: 0;
+    .stat-card:hover {
+        transform: none;
+        /* Disable hover lift on mobile */
+    }
+
+    .card-header {
+        flex-direction: column;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+
+    .zone-icon {
+        font-size: 1.2rem;
+        margin-right: 0;
+        margin-bottom: 4px;
+    }
+
+    .stat-card h2 {
+        font-size: 0.9rem;
+        /* Smaller title */
+        white-space: nowrap;
+    }
+
+    /* Main Metric scaling */
+    .main-metric {
+        margin-bottom: 8px;
+        flex-direction: column;
+        /* Stack numbers if very tight, or keep row? Row is efficient if small. */
+        flex-direction: row;
+        align-items: baseline;
     }
 
     .seen-count {
-        font-size: 3rem;
+        font-size: 1.8rem;
+        /* Much smaller */
+    }
+
+    .separator {
+        font-size: 1.2rem;
+        margin: 0 2px;
+    }
+
+    .total-count {
+        font-size: 1.2rem;
+    }
+
+    .unit {
+        display: none;
+        /* Hide "Seen" text to save space */
+    }
+
+    /* Progress Bar */
+    .progress-container {
+        height: 6px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    /* Breach Stats - Compact */
+    .breach-stats {
+        display: grid;
+        grid-template-columns: 1fr;
+        /* Stack vertically or 1fr 1fr? 1fr 1fr might be too squeezed. */
+        gap: 4px;
+        padding: 6px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.4);
+    }
+
+    .breach-item {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .breach-item .label {
+        font-size: 0.65rem;
+        margin-bottom: 0;
+    }
+
+    .breach-item .value {
+        font-size: 0.9rem;
+        margin-left: 4px;
     }
 }
