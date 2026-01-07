@@ -1,230 +1,236 @@
-<!-- From Uiverse.io by guilhermeyohan --> 
+<!-- From Uiverse.io by guilhermeyohan -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Referral Case Form</title>
-<link rel="stylesheet" href="webform.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Referral Case Form</title>
+  <link rel="stylesheet" href="webform.css">
+  <link rel="stylesheet" href="top-navigation.css">
 </head>
+
 <body>
+  <div id="topnav-container"></div>
 
-<div class="login-box">
-  <h2>Referral Case Form</h2>
-  <form id="whatsappForm">
-    
-    <div class="user-box">
-      <label>Patient's Name</label>
-      <input type="text" id="name" required="">
-      
-    </div>
+  <div class="login-box">
+    <h2>Referral Case Form</h2>
+    <form id="whatsappForm">
 
-    <div class="user-box">
-      <label>Patient's MRN / IC</label>
-      <input type="text" id="mrn" required="">
-      
-    </div>
+      <div class="user-box">
+        <label>Patient's Name</label>
+        <input type="text" id="name" required="">
 
-    <fieldset class="radio-container-1">
-      <legend>From</legend>
-
-      <input type="radio" id="fromFMC" name="from" value="FMC" checked>
-      <label for="fromFMC">FMC</label>
-
-      <input type="radio" id="fromPKU" name="from" value="PKU">
-      <label for="fromPKU">PKU</label>
-
-      <input type="radio" id="fromOther" name="from" value="Other">
-      <label for="fromOther">Others</label>
-
-      <div class="glider-container">
-        <div class="glider"></div>
       </div>
-    </fieldset>
 
-    <!-- Add this after the from fieldset -->
-    <div class="user-box other-input-container" id="otherInputContainer" style="display: none;">
-      <label for="otherInput">Please specify "Others"</label>
-      <input type="text" id="otherInput" placeholder="Referred from where?">
-    </div>
+      <div class="user-box">
+        <label>Patient's MRN / IC</label>
+        <input type="text" id="mrn" required="">
 
-    <div class="user-box">
-      <label>Working Diagnosis</label>
-      <input type="text" id="workingDiagnosis" required="">
-      
-    </div>
-
-    <div class="user-box">
-      <label>Referred from (MO / SP name)</label>
-      <input type="text" id="referredFrom" required="">
-      
-    </div>
-
-    <div class="user-box">
-      <label>Received by (MO RESQ name)</label>
-      <input type="text" id="receivedBy" required="">
-      
-    </div>
-
-    <div class="user-box">
-      <label>Primary Team (Department)</label>
-      <input type="text" id="primaryDept" required="">
-      
-    </div>
-
-    <div class="user-box">
-      <label>Primary Team (MO Name)</label>
-      <input type="text" id="primaryMO" required="">
-      
-    </div>
-
-    <fieldset class="radio-container-2">
-      <legend>Uptriage to</legend>
-
-      <input type="radio" id="YZ" name="uptriage" value="YZ" checked>
-      <label for="YZ">YZ</label>
-
-      <input type="radio" id="RZ" name="uptriage" value="RZ">
-      <label for="RZ">RZ</label>
-
-      <input type="radio" id="Non" name="uptriage" value="Non">
-      <label for="Non">Non</label>
-
-      <div class="glider-container">
-        <div class="glider"></div>
       </div>
-    </fieldset>
 
-    <div class="user-box">
-      <label for="plan">Plan</label>
-      <textarea id="plan" rows="3" required=""></textarea>
-    </div>
+      <fieldset class="radio-container-1">
+        <legend>From</legend>
 
-    <center>
-      <a href="#" id="sendBtn">
-        SEND TO RESQ SEU
-        <span></span>
-      </a>
-    </center>
+        <input type="radio" id="fromFMC" name="from" value="FMC" checked>
+        <label for="fromFMC">FMC</label>
 
-  </form>
-</div>
+        <input type="radio" id="fromPKU" name="from" value="PKU">
+        <label for="fromPKU">PKU</label>
 
-<script>
-  // Function to show/hide other input field
-function toggleOtherInput() {
-  const otherRadio = document.getElementById('fromOther');
-  const otherInputContainer = document.getElementById('otherInputContainer');
-  const otherInput = document.getElementById('otherInput');
-  
-  if (otherRadio.checked) {
-    otherInputContainer.style.display = 'block';
-    setTimeout(() => {
-      otherInputContainer.classList.add('show');
-    }, 10);
-    otherInput.setAttribute('required', 'true');
-  } else {
-    otherInputContainer.classList.remove('show');
-    setTimeout(() => {
-      otherInputContainer.style.display = 'none';
-    }, 300);
-    otherInput.removeAttribute('required');
-    otherInput.value = '';
-  }
-}
+        <input type="radio" id="fromOther" name="from" value="Other">
+        <label for="fromOther">Others</label>
 
-// Add event listeners to all from radio buttons
-document.querySelectorAll('input[name="from"]').forEach(radio => {
-  radio.addEventListener('change', toggleOtherInput);
-});
+        <div class="glider-container">
+          <div class="glider"></div>
+        </div>
+      </fieldset>
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', toggleOtherInput);
-document.getElementById("sendBtn").addEventListener("click", function(e){
-  e.preventDefault();
+      <!-- Add this after the from fieldset -->
+      <div class="user-box other-input-container" id="otherInputContainer" style="display: none;">
+        <label for="otherInput">Please specify "Others"</label>
+        <input type="text" id="otherInput" placeholder="Referred from where?">
+      </div>
 
-  let name = document.getElementById("name").value;
-  let mrn = document.getElementById("mrn").value;
-  let from = document.querySelector("input[name='from']:checked").value;
-  
-  // If "Other" is selected, use the text input value
-  if (from === "Other") {
-    from = document.getElementById("otherInput").value || "Other";
-  }
-  
-  let diagnosis = document.getElementById("workingDiagnosis").value;
-  let referred = document.getElementById("referredFrom").value;
-  let received = document.getElementById("receivedBy").value;
-  let dept = document.getElementById("primaryDept").value;
-  let mo = document.getElementById("primaryMO").value;
-  let uptriage = document.querySelector("input[name='uptriage']:checked").value;
-  let plan = document.getElementById("plan").value;
+      <div class="user-box">
+        <label>Working Diagnosis</label>
+        <input type="text" id="workingDiagnosis" required="">
 
-  let message = `*REFERRAL CASE*\n\n*Name*: ${name}\n*Mrn/ic*: ${mrn}\n\n*From*: ${from}\n*Working Diagnosis*: ${diagnosis}\n*Referred from*: ${referred}\n*Received by*: ${received}\n*Primary team*: ${dept} - ${mo}\n*Uptriage to*: ${uptriage}\n\n*Plan*: ${plan}`;
+      </div>
 
-  // ✅ Build payload
-  const payload = {
-    name, mrn, from, diagnosis, referred, received, dept, mo, uptriage, plan
-  };
+      <div class="user-box">
+        <label>Referred from (MO / SP name)</label>
+        <input type="text" id="referredFrom" required="">
 
-  // ✅ JSONP request instead of fetch
-  const script = document.createElement("script");
-  script.src = "https://script.google.com/macros/s/AKfycbypGu3aeg_cdUPWDZAiw0SWCUidFQbQfUjazlNjfrA0xZvxvnlnk5keRfViQP_qKjpK/exec"
-    + "?callback=handleResponse"
-    + "&data=" + encodeURIComponent(JSON.stringify(payload));
-  document.body.appendChild(script);
+      </div>
 
-  // ✅ WhatsApp
-  /*window.open(`https://wa.me/601119827167?text=${encodeURIComponent(message)}`, "_blank");*/
+      <div class="user-box">
+        <label>Received by (MO RESQ name)</label>
+        <input type="text" id="receivedBy" required="">
 
-  // ✅ WhatsApp - Copy message and open group
-  try {
-    const groupID = "BukdQzI6FL0HRnpVgksTqS";
-    
-    // Copy message to clipboard and open group
-    navigator.clipboard.writeText(message).then(() => {
-      window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
-      alert("✅ Message copied to clipboard! \n\nWhatsApp group is opening - paste the message (Ctrl+V) in the chat box.");
-    }).catch(err => {
-      // Fallback if clipboard fails
-      console.warn("Clipboard not available:", err);
-      window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
-      
-      // Show message in a prompt so user can copy it
-      prompt("Copy this message and paste it in WhatsApp:", message);
+      </div>
+
+      <div class="user-box">
+        <label>Primary Team (Department)</label>
+        <input type="text" id="primaryDept" required="">
+
+      </div>
+
+      <div class="user-box">
+        <label>Primary Team (MO Name)</label>
+        <input type="text" id="primaryMO" required="">
+
+      </div>
+
+      <fieldset class="radio-container-2">
+        <legend>Uptriage to</legend>
+
+        <input type="radio" id="YZ" name="uptriage" value="YZ" checked>
+        <label for="YZ">YZ</label>
+
+        <input type="radio" id="RZ" name="uptriage" value="RZ">
+        <label for="RZ">RZ</label>
+
+        <input type="radio" id="Non" name="uptriage" value="Non">
+        <label for="Non">Non</label>
+
+        <div class="glider-container">
+          <div class="glider"></div>
+        </div>
+      </fieldset>
+
+      <div class="user-box">
+        <label for="plan">Plan</label>
+        <textarea id="plan" rows="3" required=""></textarea>
+      </div>
+
+      <center>
+        <a href="#" id="sendBtn">
+          SEND TO RESQ SEU
+          <span></span>
+        </a>
+      </center>
+
+    </form>
+  </div>
+
+  <script>
+    // Function to show/hide other input field
+    function toggleOtherInput() {
+      const otherRadio = document.getElementById('fromOther');
+      const otherInputContainer = document.getElementById('otherInputContainer');
+      const otherInput = document.getElementById('otherInput');
+
+      if (otherRadio.checked) {
+        otherInputContainer.style.display = 'block';
+        setTimeout(() => {
+          otherInputContainer.classList.add('show');
+        }, 10);
+        otherInput.setAttribute('required', 'true');
+      } else {
+        otherInputContainer.classList.remove('show');
+        setTimeout(() => {
+          otherInputContainer.style.display = 'none';
+        }, 300);
+        otherInput.removeAttribute('required');
+        otherInput.value = '';
+      }
+    }
+
+    // Add event listeners to all from radio buttons
+    document.querySelectorAll('input[name="from"]').forEach(radio => {
+      radio.addEventListener('change', toggleOtherInput);
     });
-    
-  } catch (error) {
-    console.error("Error opening WhatsApp:", error);
-    alert("⚠️ Error opening WhatsApp. Please try again.");
-  }
-});
 
-// ✅ Callback for JSONP
-window.handleResponse = function (data) {
-  console.log("Google Sheets Response:", data);
-  if (data.status === "success") {
-    alert("✅ Case saved to Google Sheets!");
-  } else {
-    alert("⚠️ Error: " + (data.message || "Unable to save"));
-  }
-}
-</script>
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', toggleOtherInput);
+    document.getElementById("sendBtn").addEventListener("click", function (e) {
+      e.preventDefault();
+
+      let name = document.getElementById("name").value;
+      let mrn = document.getElementById("mrn").value;
+      let from = document.querySelector("input[name='from']:checked").value;
+
+      // If "Other" is selected, use the text input value
+      if (from === "Other") {
+        from = document.getElementById("otherInput").value || "Other";
+      }
+
+      let diagnosis = document.getElementById("workingDiagnosis").value;
+      let referred = document.getElementById("referredFrom").value;
+      let received = document.getElementById("receivedBy").value;
+      let dept = document.getElementById("primaryDept").value;
+      let mo = document.getElementById("primaryMO").value;
+      let uptriage = document.querySelector("input[name='uptriage']:checked").value;
+      let plan = document.getElementById("plan").value;
+
+      let message = `*REFERRAL CASE*\n\n*Name*: ${name}\n*Mrn/ic*: ${mrn}\n\n*From*: ${from}\n*Working Diagnosis*: ${diagnosis}\n*Referred from*: ${referred}\n*Received by*: ${received}\n*Primary team*: ${dept} - ${mo}\n*Uptriage to*: ${uptriage}\n\n*Plan*: ${plan}`;
+
+      // ✅ Build payload
+      const payload = {
+        name, mrn, from, diagnosis, referred, received, dept, mo, uptriage, plan
+      };
+
+      // ✅ JSONP request instead of fetch
+      const script = document.createElement("script");
+      script.src = "https://script.google.com/macros/s/AKfycbypGu3aeg_cdUPWDZAiw0SWCUidFQbQfUjazlNjfrA0xZvxvnlnk5keRfViQP_qKjpK/exec"
+        + "?callback=handleResponse"
+        + "&data=" + encodeURIComponent(JSON.stringify(payload));
+      document.body.appendChild(script);
+
+      // ✅ WhatsApp
+      /*window.open(`https://wa.me/601119827167?text=${encodeURIComponent(message)}`, "_blank");*/
+
+      // ✅ WhatsApp - Copy message and open group
+      try {
+        const groupID = "BukdQzI6FL0HRnpVgksTqS";
+
+        // Copy message to clipboard and open group
+        navigator.clipboard.writeText(message).then(() => {
+          window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
+          alert("✅ Message copied to clipboard! \n\nWhatsApp group is opening - paste the message (Ctrl+V) in the chat box.");
+        }).catch(err => {
+          // Fallback if clipboard fails
+          console.warn("Clipboard not available:", err);
+          window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
+
+          // Show message in a prompt so user can copy it
+          prompt("Copy this message and paste it in WhatsApp:", message);
+        });
+
+      } catch (error) {
+        console.error("Error opening WhatsApp:", error);
+        alert("⚠️ Error opening WhatsApp. Please try again.");
+      }
+    });
+
+    // ✅ Callback for JSONP
+    window.handleResponse = function (data) {
+      console.log("Google Sheets Response:", data);
+      if (data.status === "success") {
+        alert("✅ Case saved to Google Sheets!");
+      } else {
+        alert("⚠️ Error: " + (data.message || "Unable to save"));
+      }
+    }
+  </script>
 
 
-<div id="navbar-container"></div>
-    <script>
+  <div id="navbar-container"></div>
+  <script>
     fetch('navbar.html')
-        .then(res => res.text())
-        .then(html => {
+      .then(res => res.text())
+      .then(html => {
         document.getElementById('navbar-container').innerHTML = html;
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'navbar.css';
         document.head.appendChild(link);
-        });
-    </script>
+      });
+  </script>
 
+  <script src="top-navigation.js"></script>
 </body>
+
 </html>
 <!--https://api.whatsapp.com/send?phone=${groupID}&text=${encodeURIComponent(message)}-->

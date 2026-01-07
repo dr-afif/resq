@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Zone Monitor</title>
+    <link rel="stylesheet" href="webform.css"> <!-- Reusing base styles -->
+    <link rel="stylesheet" href="top-navigation.css">
+    <link rel="stylesheet" href="monitor.css">
+</head>
+
+<body>
+    <div id="topnav-container"></div>
+
+    <div class="monitor-container">
+        <div class="header-section">
+            <h1>Live Zone Status</h1>
+            <p class="subtitle">Real-time emergency department capacity & waiting times</p>
+            <div id="last-updated" class="last-updated">Waiting for data...</div>
+        </div>
+
+        <div class="stats-grid">
+            <!-- Green Zone -->
+            <div class="stat-card green-zone">
+                <div class="card-header">
+                    <div class="zone-icon">🟢</div>
+                    <h2>Green Zone</h2>
+                </div>
+                <div class="main-metric">
+                    <span class="seen-count" id="g-seen">0</span>
+                    <span class="separator">/</span>
+                    <span class="total-count" id="g-total">0</span>
+                    <span class="unit">Seen</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="g-bar" style="width: 0%"></div>
+                </div>
+                <div class="breach-stats">
+                    <div class="breach-item">
+                        <span class="label">> 4 Hours</span>
+                        <span class="value" id="g-4h">0</span>
+                    </div>
+                    <div class="breach-item warning">
+                        <span class="label">> 6 Hours</span>
+                        <span class="value" id="g-6h">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yellow Zone -->
+            <div class="stat-card yellow-zone">
+                <div class="card-header">
+                    <div class="zone-icon">🟡</div>
+                    <h2>Yellow Zone</h2>
+                </div>
+                <div class="main-metric">
+                    <span class="seen-count" id="y-seen">0</span>
+                    <span class="separator">/</span>
+                    <span class="total-count" id="y-total">0</span>
+                    <span class="unit">Seen</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="y-bar" style="width: 0%"></div>
+                </div>
+                <div class="breach-stats">
+                    <div class="breach-item">
+                        <span class="label">> 4 Hours</span>
+                        <span class="value" id="y-4h">0</span>
+                    </div>
+                    <div class="breach-item warning">
+                        <span class="label">> 6 Hours</span>
+                        <span class="value" id="y-6h">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Red Zone -->
+            <div class="stat-card red-zone">
+                <div class="card-header">
+                    <div class="zone-icon">🔴</div>
+                    <h2>Red Zone</h2>
+                </div>
+                <div class="main-metric">
+                    <span class="seen-count" id="r-seen">0</span>
+                    <span class="separator">/</span>
+                    <span class="total-count" id="r-total">0</span>
+                    <span class="unit">Seen</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="r-bar" style="width: 0%"></div>
+                </div>
+                <div class="breach-stats">
+                    <div class="breach-item">
+                        <span class="label">> 4 Hours</span>
+                        <span class="value" id="r-4h">0</span>
+                    </div>
+                    <div class="breach-item warning">
+                        <span class="label">> 6 Hours</span>
+                        <span class="value" id="r-6h">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="top-navigation.js"></script>
+    <script src="monitor.js"></script>
+</body>
+
+</html>
