@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UPM RESQ Full Panel + Telegram Multi-User + Overdue Breakdown (Long-Polling) + Hi-Res Screenshot
 // @namespace    http://tampermonkey.net/
-// @version      3.4
+// @version      3.5
 // @description  RESQ panel + overdue tracking + Telegram long-polling + hi-res /screenshot (as document) and /screenshot_photo
 // @match        https://putrahis.hsaas.upm.edu.my/*
 // @grant        GM_setValue
