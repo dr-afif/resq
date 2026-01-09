@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="top-navigation.css" />
   <link rel="stylesheet" href="monitor.css" />
   <link rel="manifest" href="manifest.json" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -30,6 +31,9 @@
       <h1 style="font-size: 2rem; margin-bottom: 5px;">Live Zone Status</h1>
       <p class="subtitle" style="font-size: 1rem;">Real-time emergency department capacity</p>
       <div id="last-updated" class="last-updated" style="font-size: 0.8rem;">Waiting for current data...</div>
+      <button id="screenshot-btn"
+        style="margin-left: 10px; padding: 4px 12px; border-radius: 20px; border: none; background: #007bff; color: white; cursor: pointer; font-family: monospace; font-size: 0.9rem;">📸
+        Save</button>
     </div>
 
     <div class="stats-grid">
@@ -126,6 +130,20 @@
       <p>More features will be added here.</p>
     </div>
   </main>
+
+  <!-- Screenshot Modal -->
+  <div id="screenshot-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h3 style="margin: 0 0 15px; width: 100%; text-align: left;">📸 Screenshot Preview</h3>
+      <div class="modal-content">
+        <img id="screenshot-preview" src="" alt="Screenshot Preview">
+      </div>
+      <div class="modal-actions">
+        <button id="modal-close-btn" class="modal-btn btn-close">Close</button>
+        <a id="modal-download-btn" class="modal-btn btn-download" download="screenshot.png">Download</a>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
   <script src="monitor.js"></script>

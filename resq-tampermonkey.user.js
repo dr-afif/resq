@@ -478,7 +478,52 @@
                 postToGoogleSheet(zones); // Sync to Cloud
                 lastSentJson = currentJson;
             }
-        }, 5000); // Increased to 5s to be safe, but 3s is fine. Let's keep 3s but add logging.
+        }, 5000);
+
+
+        // POLL for Remote Screenshot Requests (Every 6s)
+        setInterval(async () => {
+            try {
+                // 1. Check for requests
+                const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=pollRequests`);
+                const data = await res.json();
+
+                if (data.status === 'success' && data.requests && data.requests.length > 0) {
+                    console.log("Found remote screenshot requests:", data.requests);
+
+                    // 2. Process each request
+                    for (const userId of data.requests) {
+                        console.log(`Processing screenshot for User: ${userId}...`);
+
+                        // Capture (using same logic as Telegram)
+                        await ensureHtml2Canvas();
+                        const blob = await capturePanelBlob(2); // Scale 2
+
+                        // Convert Blob to Base64
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = async () => {
+                            const base64data = reader.result.split(',')[1]; // remove data:image/png;base64,
+
+                            // 3. Upload to GAS
+                            await fetch(GOOGLE_SCRIPT_URL, {
+                                method: 'POST',
+                                mode: 'no-cors',
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    action: 'uploadScreenshot',
+                                    userId: userId,
+                                    image: base64data
+                                })
+                            });
+                            console.log(`Uploaded screenshot for User: ${userId}`);
+                        };
+                    }
+                }
+            } catch (err) {
+                console.error("Remote polling error:", err);
+            }
+        }, 6000);
 
 
         startLongPolling();
