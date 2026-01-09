@@ -7,6 +7,7 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
+// @require      https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js
 // @run-at       document-idle
 // ==/UserScript==
 
@@ -265,22 +266,9 @@
     }
 
     // ====== SCREENSHOT: html2canvas loader & capture ======
-    function ensureHtml2Canvas() {
-        if (window.html2canvas) return Promise.resolve();
-        return new Promise((resolve, reject) => {
-            let s = document.getElementById('html2canvas-loader');
-            if (!s) {
-                s = document.createElement('script');
-                s.id = 'html2canvas-loader';
-                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-                s.onload = () => resolve();
-                s.onerror = () => reject(new Error('Failed to load html2canvas'));
-                document.head.appendChild(s);
-            } else {
-                s.onload = () => resolve();
-            }
-        });
-    }
+    // ====== SCREENSHOT: html2canvas loader & capture ======
+    // ensureHtml2Canvas removed - using @require instead
+
 
     function findTargetPanel() {
         const candidates = Array.from(document.querySelectorAll('div.panel.panel-inverse'));
@@ -299,7 +287,8 @@
         }
 
         await new Promise(r => setTimeout(r, 50)); // layout settle
-        const canvas = await window.html2canvas(node, {
+        // properly access html2canvas from @require scope
+        const canvas = await html2canvas(node, {
             backgroundColor: '#ffffff',
             scale,
             useCORS: true,
@@ -312,7 +301,7 @@
     async function sendPanelImage(chatId, { asDocument = true, scale } = {}) {
         try {
             await sendChatAction(chatId, asDocument ? 'upload_document' : 'upload_photo');
-            await ensureHtml2Canvas();
+            // await ensureHtml2Canvas(); // handled by @require
             const blob = await capturePanelBlob(scale);
             if (!blob) throw new Error('Failed to render panel');
 
@@ -379,7 +368,8 @@
                     }
 
                     const rawText = (message.text || '').trim();
-                    const [cmd, maybeScale] = rawText.split(/\s+/);
+                    let [cmd, maybeScale] = rawText.split(/\s+/);
+                    if (cmd) cmd = cmd.split('@')[0]; // Remove @botname suffix if present
                     const chatId = message.chat.id;
 
                     console.log(`Received Telegram command: ${rawText} from chat ${chatId}`);
