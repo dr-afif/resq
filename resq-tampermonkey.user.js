@@ -506,10 +506,11 @@
                             const base64data = reader.result.split(',')[1]; // remove data:image/png;base64,
 
                             // 3. Upload to GAS
+                            // Use text/plain to avoid CORS Preflight (OPTIONS) which GAS doesn't support
                             await fetch(GOOGLE_SCRIPT_URL, {
                                 method: 'POST',
                                 mode: 'no-cors',
-                                headers: { "Content-Type": "application/json" },
+                                headers: { "Content-Type": "text/plain" },
                                 body: JSON.stringify({
                                     action: 'uploadScreenshot',
                                     userId: userId,
