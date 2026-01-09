@@ -496,7 +496,7 @@
                         console.log(`Processing screenshot for User: ${userId}...`);
 
                         // Capture (using same logic as Telegram)
-                        await ensureHtml2Canvas();
+                        // await ensureHtml2Canvas(); // Removed: loaded via @require
                         const blob = await capturePanelBlob(2); // Scale 2
 
                         // Convert Blob to Base64
