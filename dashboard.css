@@ -98,8 +98,9 @@ header h1,
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: clamp(1.2rem, 3.5vw, 1.8rem);
-  padding: 2.5rem clamp(0.4rem, 4vw, 1.2rem) clamp(1rem, 3vw, 1.6rem);
-  /* Increased top padding */
+  /* The standard gap */
+  padding: clamp(1.2rem, 3.5vw, 1.8rem) clamp(0.4rem, 4vw, 1.2rem) clamp(1rem, 3vw, 1.6rem);
+  /* padding-top matches gap */
 }
 
 .card {

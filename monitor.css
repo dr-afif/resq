@@ -451,8 +451,7 @@
 /* Swiper Internal Logic */
 .dashboard .card.complex-card {
     padding: 0 !important;
-    margin-top: 100px !important;
-    /* Force large gap from header */
+    margin-top: 0 !important;
     display: block !important;
 }
 
