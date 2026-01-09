@@ -1,15 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // URL of your Google Apps Script Web App
-    // Note: You must update this URL if you deploy a new script.
-    // Ensure the script is deployed with "Execute as: Me" and "Who has access: Anyone".
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMYWwVyXIuehLiModrZqciIFH_L82R5m0b1TuHjABkWAUQZtIZaF6zecF13-yvrLbm/exec";
 
-    const updateInterval = 5000; // Update every 5 seconds (Near-Instant feel)
+    const updateInterval = 5000; // Update every 5 seconds
 
     async function fetchZoneData() {
         try {
-            // We use the 'action=getZones' parameter to distinguish from the form submission
-            // Note: This requires the GAS to handle this parameter.
             const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getZones`);
             const data = await response.json();
 
@@ -20,30 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error("Failed to fetch zone data:", error);
-            // Optional: Show error state in UI
         }
     }
 
     function updateDashboard(zones, timestamp) {
-        // Timestamp
         const date = new Date(timestamp || Date.now());
-        document.getElementById('last-updated').textContent = `Last updated: ${date.toLocaleTimeString()}`;
-
-        // Helper to animate numbers
-        const animateValue = (id, start, end, duration) => {
-            const obj = document.getElementById(id);
-            if (!obj) return;
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                obj.innerText = Math.floor(progress * (end - start) + start);
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        };
+        const lastUpdatedEl = document.getElementById('last-updated');
+        if (lastUpdatedEl) lastUpdatedEl.textContent = `Last updated: ${date.toLocaleTimeString()}`;
 
         // Update Zones
         ['green', 'yellow', 'red'].forEach(zoneKey => {
@@ -53,10 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const prefix = zoneKey.charAt(0); // 'g', 'y', 'r'
 
             // Text values
-            document.getElementById(`${prefix}-seen`).innerText = data.seen;
-            document.getElementById(`${prefix}-total`).innerText = data.total;
-            document.getElementById(`${prefix}-4h`).innerText = data.over4h;
-            document.getElementById(`${prefix}-6h`).innerText = data.over6h;
+            const elSeen = document.getElementById(`${prefix}-seen`);
+            const elTotal = document.getElementById(`${prefix}-total`);
+            const el4h = document.getElementById(`${prefix}-4h`);
+            const el6h = document.getElementById(`${prefix}-6h`);
+
+            if (elSeen) elSeen.innerText = data.seen;
+            if (elTotal) elTotal.innerText = data.total;
+            if (el4h) el4h.innerText = data.over4h;
+            if (el6h) el6h.innerText = data.over6h;
 
             // Progress Bar
             const percent = data.total > 0 ? (data.seen / data.total) * 100 : 0;
@@ -69,25 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial load
     fetchZoneData();
-
-    // Polling
     setInterval(fetchZoneData, updateInterval);
 
-    // DEMO MODE: If fetch fails normally (CORS/No backend logic yet), populate with dummy data
-    // Remove this in production
-    /*
-    setTimeout(() => {
-        if (document.getElementById('g-total').innerText === '0') {
-            console.log("Demo mode: Populating dummy data");
-            const dummy = {
-                green: { seen: 45, total: 60, over4h: 2, over6h: 0 },
-                yellow: { seen: 20, total: 25, over4h: 5, over6h: 1 },
-                red: { seen: 8, total: 8, over4h: 0, over6h: 0 }
-            };
-            updateDashboard(dummy, Date.now());
-        }
-    }, 2000);
-    */
+    // ------------------------------------------------------------------
+    // REMOTE SCREENSHOT LOGIC
+    // ------------------------------------------------------------------
+
     // Generate Persistent User ID
     let userId = localStorage.getItem('resq_user_id');
     if (!userId) {
@@ -96,45 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     console.log("My User ID:", userId);
 
-    // Screenshot Logic (Local)
-    const screenshotBtn = document.getElementById('screenshot-btn');
-    if (screenshotBtn) {
-        screenshotBtn.addEventListener('click', async () => {
-            const originalText = screenshotBtn.textContent;
-            screenshotBtn.textContent = "📸 Capturing...";
-            screenshotBtn.disabled = true;
-
-            try {
-                // Determine target - entire monitor container
-                const target = document.querySelector('.monitor-container');
-                if (!target) throw new Error("Monitor container not found");
-
-                const canvas = await html2canvas(target, {
-                    scale: 2, // Retain high quality
-                    backgroundColor: '#ffffff', // Ensure white background
-                    useCORS: true,
-                    logging: false
-                });
-
-                showInModal(canvas.toDataURL('image/png'));
-
-            } catch (err) {
-                console.error("Local screenshot failed:", err);
-                alert("Failed to capture local screenshot. Check console.");
-            } finally {
-                screenshotBtn.textContent = originalText;
-                screenshotBtn.disabled = false;
-            }
-        });
-    }
-
-    // Remote Screenshot Logic
     const remoteBtn = document.getElementById('remote-screenshot-btn');
     if (remoteBtn) {
-        let originalText = remoteBtn.textContent; // Store original text for reset
+        let originalText = remoteBtn.textContent;
 
         remoteBtn.addEventListener('click', async () => {
-            originalText = remoteBtn.textContent; // Update original text in case it changed
+            originalText = remoteBtn.textContent;
             remoteBtn.textContent = "⏳ Requesting...";
             remoteBtn.disabled = true;
 
@@ -147,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 remoteBtn.textContent = "📡 Waiting for Host...";
 
-                // 2. Poll for Result (timeout after 60s)
+                // 2. Poll Loop
                 let attempts = 0;
                 const maxAttempts = 30; // 30 * 2s = 60s
 
@@ -155,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     attempts++;
                     if (attempts > maxAttempts) {
                         clearInterval(poll);
-                        alert("Timeout: Host did not respond in time. Is the Tampermonkey script running?");
+                        alert("Timeout: Host did not respond in time.");
                         resetRemoteBtn();
                         return;
                     }
@@ -166,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         if (checkData.status === 'ready' && checkData.url) {
                             clearInterval(poll);
-                            showInModal(checkData.url); // Show the remote URL
+                            // SUCCESS: Show in Slide
+                            updateScreenshotDisplay(checkData.url);
                             resetRemoteBtn();
                         }
                     } catch (e) {
@@ -187,29 +126,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showInModal(imgSrc) {
-        const modal = document.getElementById('screenshot-modal');
-        const previewImg = document.getElementById('screenshot-preview');
-        const downloadBtn = document.getElementById('modal-download-btn');
-        const closeBtn = document.getElementById('modal-close-btn');
+    function updateScreenshotDisplay(imgSrc) {
+        const img = document.getElementById('live-screenshot-img');
+        const container = document.getElementById('screenshot-container');
+        const placeholderText = document.getElementById('screenshot-placeholder-text');
 
-        if (modal && previewImg && downloadBtn) {
-            previewImg.src = imgSrc;
+        if (img && container) {
+            // When image loads, show it and hide placeholder text
+            img.onload = () => {
+                img.classList.add('loaded');
+                container.classList.add('has-image');
+                if (placeholderText) placeholderText.style.display = 'none';
+            };
+            // Set source (this triggers the load)
+            img.src = imgSrc;
 
-            // Setup download button
-            // If it's a data URL, we can download directly.
-            // If it's a Drive URL, download might open in new tab due to CORS, but 'download' attr helps.
-            const filename = `resq-capture-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.png`;
-            downloadBtn.download = filename;
-            downloadBtn.href = imgSrc;
-
-            modal.style.display = 'flex';
-
-            const closeModal = () => { modal.style.display = 'none'; };
-            closeBtn.onclick = closeModal;
-            modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+            // Auto-scroll to image if needed? 
+            // The user is likely already looking at this slide since the button is there.
         } else {
-            console.error("Modal elements not found for showInModal");
+            console.error("Screenshot elements not found in DOM");
         }
     }
 });

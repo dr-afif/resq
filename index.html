@@ -8,142 +8,174 @@
   <link rel="stylesheet" href="dashboard.css" />
   <link rel="stylesheet" href="top-navigation.css" />
   <link rel="stylesheet" href="monitor.css" />
+  <!-- Font Awesome (for icons if needed, optional) -->
   <link rel="manifest" href="manifest.json" />
+  <!-- Helper for local screenshot fallback (optional) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
-  <!-- Splash Screen 
-  <div id="splash-screen">
-    <div class="splash-content">
-      <img src="./icons/icon-192.png" alt="App Logo" class="splash-logo">
-      <h1>RESQ App</h1>
-    </div>
-  </div> -->
-
-  <!-- Main Content -->
-
   <div id="topnav-container"></div>
   <script src="top-navigation.js"></script>
 
-  <div class="monitor-container">
-    <div class="header-section" style="margin-bottom: 20px;">
-      <h1 style="font-size: 2rem; margin-bottom: 5px;">Live Zone Status</h1>
-      <p class="subtitle" style="font-size: 1rem;">Real-time emergency department capacity</p>
-      <div id="last-updated" class="last-updated" style="font-size: 0.8rem;">Waiting for current data...</div>
-      <button id="remote-screenshot-btn"
-        style="margin-left: 5px; padding: 4px 12px; border-radius: 20px; border: none; background: #6c757d; color: white; cursor: pointer; font-family: monospace; font-size: 0.9rem;">📡
-        Remote</button>
-    </div>
-
-    <div class="stats-grid">
-      <!-- Green Zone -->
-      <div class="stat-card green-zone">
-        <div class="card-header">
-          <div class="zone-icon">🟢</div>
-          <h2>Green Zone</h2>
-        </div>
-        <div class="main-metric">
-          <span class="seen-count" id="g-seen">0</span>
-          <span class="separator">/</span>
-          <span class="total-count" id="g-total">0</span>
-          <span class="unit">Seen</span>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar" id="g-bar" style="width: 0%"></div>
-        </div>
-        <div class="breach-stats">
-          <div class="breach-item">
-            <span class="label">> 4 Hours</span>
-            <span class="value" id="g-4h">0</span>
-          </div>
-          <div class="breach-item warning">
-            <span class="label">> 6 Hours</span>
-            <span class="value" id="g-6h">0</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Yellow Zone -->
-      <div class="stat-card yellow-zone">
-        <div class="card-header">
-          <div class="zone-icon">🟡</div>
-          <h2>Yellow Zone</h2>
-        </div>
-        <div class="main-metric">
-          <span class="seen-count" id="y-seen">0</span>
-          <span class="separator">/</span>
-          <span class="total-count" id="y-total">0</span>
-          <span class="unit">Seen</span>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar" id="y-bar" style="width: 0%"></div>
-        </div>
-        <div class="breach-stats">
-          <div class="breach-item">
-            <span class="label">> 4 Hours</span>
-            <span class="value" id="y-4h">0</span>
-          </div>
-          <div class="breach-item warning">
-            <span class="label">> 6 Hours</span>
-            <span class="value" id="y-6h">0</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Red Zone -->
-      <div class="stat-card red-zone">
-        <div class="card-header">
-          <div class="zone-icon">🔴</div>
-          <h2>Red Zone</h2>
-        </div>
-        <div class="main-metric">
-          <span class="seen-count" id="r-seen">0</span>
-          <span class="separator">/</span>
-          <span class="total-count" id="r-total">0</span>
-          <span class="unit">Seen</span>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar" id="r-bar" style="width: 0%"></div>
-        </div>
-        <div class="breach-stats">
-          <div class="breach-item">
-            <span class="label">> 4 Hours</span>
-            <span class="value" id="r-4h">0</span>
-          </div>
-          <div class="breach-item warning">
-            <span class="label">> 6 Hours</span>
-            <span class="value" id="r-6h">0</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <main class="dashboard">
+
+    <!-- Card 1: Complex Swiper Card (Zone Status + Screenshot) -->
+    <div class="card complex-card">
+      <div class="swiper-container" id="monitor-swiper">
+        <div class="swiper-wrapper">
+
+          <!-- Slide A: Live Zone Status -->
+          <div class="swiper-slide zone-slide">
+            <div class="header-section" style="margin-bottom: 20px;">
+              <h1 style="font-size: 2rem; margin-bottom: 5px;">Live Zone Status</h1>
+              <p class="subtitle" style="font-size: 1rem;">Real-time emergency department capacity</p>
+              <div id="last-updated" class="last-updated" style="font-size: 0.8rem;">Waiting for current data...</div>
+            </div>
+
+            <div class="stats-grid">
+              <!-- Green Zone -->
+              <div class="stat-card green-zone">
+                <div class="card-header">
+                  <div class="zone-icon">🟢</div>
+                  <h2>Green Zone</h2>
+                </div>
+                <div class="main-metric">
+                  <span class="seen-count" id="g-seen">0</span>
+                  <span class="separator">/</span>
+                  <span class="total-count" id="g-total">0</span>
+                  <span class="unit">Seen</span>
+                </div>
+                <div class="progress-container">
+                  <div class="progress-bar" id="g-bar" style="width: 0%"></div>
+                </div>
+                <div class="breach-stats">
+                  <div class="breach-item">
+                    <span class="label">> 4 Hours</span>
+                    <span class="value" id="g-4h">0</span>
+                  </div>
+                  <div class="breach-item warning">
+                    <span class="label">> 6 Hours</span>
+                    <span class="value" id="g-6h">0</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Yellow Zone -->
+              <div class="stat-card yellow-zone">
+                <div class="card-header">
+                  <div class="zone-icon">🟡</div>
+                  <h2>Yellow Zone</h2>
+                </div>
+                <div class="main-metric">
+                  <span class="seen-count" id="y-seen">0</span>
+                  <span class="separator">/</span>
+                  <span class="total-count" id="y-total">0</span>
+                  <span class="unit">Seen</span>
+                </div>
+                <div class="progress-container">
+                  <div class="progress-bar" id="y-bar" style="width: 0%"></div>
+                </div>
+                <div class="breach-stats">
+                  <div class="breach-item">
+                    <span class="label">> 4 Hours</span>
+                    <span class="value" id="y-4h">0</span>
+                  </div>
+                  <div class="breach-item warning">
+                    <span class="label">> 6 Hours</span>
+                    <span class="value" id="y-6h">0</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Red Zone -->
+              <div class="stat-card red-zone">
+                <div class="card-header">
+                  <div class="zone-icon">🔴</div>
+                  <h2>Red Zone</h2>
+                </div>
+                <div class="main-metric">
+                  <span class="seen-count" id="r-seen">0</span>
+                  <span class="separator">/</span>
+                  <span class="total-count" id="r-total">0</span>
+                  <span class="unit">Seen</span>
+                </div>
+                <div class="progress-container">
+                  <div class="progress-bar" id="r-bar" style="width: 0%"></div>
+                </div>
+                <div class="breach-stats">
+                  <div class="breach-item">
+                    <span class="label">> 4 Hours</span>
+                    <span class="value" id="r-4h">0</span>
+                  </div>
+                  <div class="breach-item warning">
+                    <span class="label">> 6 Hours</span>
+                    <span class="value" id="r-6h">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Slide A -->
+
+          <!-- Slide B: Live Screenshot -->
+          <div class="swiper-slide screenshot-slide">
+            <h2>Live Screenshot</h2>
+            <p class="subtitle" style="font-size: 1rem; margin-bottom: 20px;">View real-time dashboard from host</p>
+
+            <div class="screenshot-placeholder" id="screenshot-container">
+              <span id="screenshot-placeholder-text">Tap "Capture Live" below</span>
+              <img id="live-screenshot-img" src="" alt="Live Screenshot">
+            </div>
+
+            <button id="remote-screenshot-btn" class="btn-live-screenshot">📡 Capture Live</button>
+          </div>
+          <!-- End Slide B -->
+
+        </div>
+      </div>
+
+      <!-- Pagination Dots -->
+      <div class="swiper-pagination">
+        <div class="swiper-dot active"></div>
+        <div class="swiper-dot"></div>
+      </div>
+    </div>
+
+    <!-- Referral Card -->
     <div class="card" onclick="location.href='webform1.html'">
       <h2>📝 Referral from FMC/PKU</h2>
       <p>Fill in and submit the form if receiving pt from FMC or PKU</p>
     </div>
+
+    <!-- Coming Soon Card -->
     <div class="card">
       <h2>🔗 Coming Soon</h2>
       <p>More features will be added here.</p>
     </div>
   </main>
 
-  <!-- Screenshot Modal -->
-  <div id="screenshot-modal" class="modal-overlay">
-    <div class="modal-card">
-      <h3 style="margin: 0 0 15px; width: 100%; text-align: left;">📸 Screenshot Preview</h3>
-      <div class="modal-content">
-        <img id="screenshot-preview" src="" alt="Screenshot Preview">
-      </div>
-      <div class="modal-actions">
-        <button id="modal-close-btn" class="modal-btn btn-close">Close</button>
-        <a id="modal-download-btn" class="modal-btn btn-download" download="screenshot.png">Download</a>
-      </div>
-    </div>
-  </div>
+  <!-- IMPORTANT: Logic for Swiper Dots -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const swiper = document.querySelector('.swiper-container');
+      const dots = document.querySelectorAll('.swiper-dot');
+
+      if (swiper) {
+        swiper.addEventListener('scroll', () => {
+          const scrollPosition = swiper.scrollLeft;
+          const width = swiper.offsetWidth;
+          // Simple logic: if scrolled more than halfway, activate second dot
+          const activeIndex = Math.round(scrollPosition / width);
+
+          dots.forEach((dot, index) => {
+            if (index === activeIndex) dot.classList.add('active');
+            else dot.classList.remove('active');
+          });
+        });
+      }
+    });
+  </script>
 
   <script src="app.js"></script>
   <script src="monitor.js"></script>

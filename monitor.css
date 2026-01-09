@@ -2,7 +2,8 @@
 
 .monitor-container {
     width: min(100%, 1100px);
-    margin: 0 auto 30px;
+    margin: 40px auto 30px;
+    /* Added 40px top margin to clear nav */
     padding: 0 clamp(0.4rem, 4vw, 1.2rem);
 }
 
@@ -420,4 +421,144 @@
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+/* Live Screenshot Content */
+.btn-live-screenshot {
+    background: #4361ee;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s;
+    cursor: pointer;
+    border: none;
+    margin-left: 10px;
+}
+
+.btn-live-screenshot:hover {
+    background: #3b52d1;
+    transform: translateY(-1px);
+}
+
+.btn-live-screenshot:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Swiper Internal Logic */
+.dashboard .card.complex-card {
+    padding: 0 !important;
+    margin-top: 100px !important;
+    /* Force large gap from header */
+    display: block !important;
+}
+
+.swiper-container {
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: flex;
+    flex-direction: row;
+    /* FORCE ROW */
+}
+
+.swiper-wrapper {
+    display: flex;
+    flex-direction: row;
+    /* FORCE ROW */
+    width: auto;
+    /* Let content dictate width */
+    min-width: 100%;
+}
+
+.swiper-slide {
+    min-width: 100%;
+    flex: 0 0 100%;
+    /* FORCE it to not shrink */
+    scroll-snap-align: center;
+    padding: 0.5rem clamp(1rem, 3vw, 1.5rem) 1.5rem;
+    /* Drastically reduced top padding (0.5rem) */
+    box-sizing: border-box;
+}
+
+/* Remove default margins from headers inside swiper to save space */
+.swiper-slide .header-section,
+.swiper-slide h1,
+.swiper-slide h2 {
+    margin-top: 5px !important;
+}
+
+/* Screenshot Slide Specifics */
+.screenshot-slide {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    min-height: 400px;
+}
+
+/* Header for Screenshot Slide (matches existing h1 style) */
+.screenshot-slide h2 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.screenshot-placeholder {
+    width: 100%;
+    height: 300px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    margin-bottom: 20px;
+    border: 2px dashed rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    flex-grow: 1;
+}
+
+.screenshot-placeholder img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: none;
+    /* Hidden until loaded */
+}
+
+.screenshot-placeholder img.loaded {
+    display: block;
+}
+
+.screenshot-placeholder.has-image {
+    background: transparent;
+    border: none;
+}
+
+/* Pagination Dots */
+.swiper-pagination {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 15px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.swiper-dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: background 0.3s;
+}
+
+.swiper-dot.active {
+    background: #4361ee;
 }
