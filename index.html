@@ -20,12 +20,10 @@
 
   <main class="dashboard">
 
-    <!-- Card 1: Complex Swiper Card (Zone Status + Screenshot) -->
     <div class="card complex-card">
-      <div class="swiper-container" id="monitor-swiper">
+      <div class="swiper-container">
         <div class="swiper-wrapper">
-
-          <!-- Slide A: Live Zone Status -->
+          <!-- Live Zone Status Slide -->
           <div class="swiper-slide zone-slide">
             <div class="header-section" style="margin-bottom: 20px;">
               <h1 style="font-size: 2rem; margin-bottom: 5px;">Live Zone Status</h1>
@@ -116,29 +114,7 @@
               </div>
             </div>
           </div>
-          <!-- End Slide A -->
-
-          <!-- Slide B: Live Screenshot -->
-          <div class="swiper-slide screenshot-slide">
-            <h2>Live Screenshot</h2>
-            <p class="subtitle" style="font-size: 1rem; margin-bottom: 20px;">View real-time dashboard from host</p>
-
-            <div class="screenshot-placeholder" id="screenshot-container">
-              <span id="screenshot-placeholder-text">Tap "Capture Live" below</span>
-              <img id="live-screenshot-img" src="" alt="Live Screenshot">
-            </div>
-
-            <button id="remote-screenshot-btn" class="btn-live-screenshot">📡 Capture Live</button>
-          </div>
-          <!-- End Slide B -->
-
         </div>
-      </div>
-
-      <!-- Pagination Dots -->
-      <div class="swiper-pagination">
-        <div class="swiper-dot active"></div>
-        <div class="swiper-dot"></div>
       </div>
     </div>
 
@@ -156,6 +132,7 @@
   </main>
 
   <!-- IMPORTANT: Logic for Swiper Dots -->
+  <!-- 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const swiper = document.querySelector('.swiper-container');
@@ -165,7 +142,6 @@
         swiper.addEventListener('scroll', () => {
           const scrollPosition = swiper.scrollLeft;
           const width = swiper.offsetWidth;
-          // Simple logic: if scrolled more than halfway, activate second dot
           const activeIndex = Math.round(scrollPosition / width);
 
           dots.forEach((dot, index) => {
@@ -176,6 +152,7 @@
       }
     });
   </script>
+  -->
 
   <script src="app.js"></script>
   <script src="monitor.js"></script>
