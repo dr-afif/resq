@@ -307,10 +307,9 @@
   color: #ef4444;
   margin-top: 2px;
   text-transform: uppercase;
-  max-width: 65px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.2;
   margin-left: auto;
   margin-right: auto;
 }
