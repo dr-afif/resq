@@ -3,8 +3,9 @@ function initTopNav() {
     const path = window.location.pathname.split('/').pop() || 'index.html';
 
     let activeId = '';
-    if (path === 'index.html' || path === '') activeId = 'nav-home';
+    if (path === 'index.html' || path === '') activeId = 'nav-dashboard';
     else if (path === 'webform1.html') activeId = 'nav-referral';
+    else if (path === 'roster.html') activeId = 'nav-roster';
 
     if (activeId) {
         const el = document.getElementById(activeId);

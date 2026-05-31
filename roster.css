@@ -1,0 +1,428 @@
+/* RESQ Full Roster Styling */
+
+.roster-container {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.2rem, 3.5vw, 1.8rem);
+  padding: clamp(1.2rem, 3.5vw, 1.8rem) clamp(0.4rem, 4vw, 1.2rem) clamp(1rem, 3vw, 1.6rem);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header & Navigation controls */
+.roster-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .roster-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.roster-title-section h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-heading);
+  background: linear-gradient(135deg, #1e293b 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.roster-title-section p {
+  margin: 5px 0 0 0;
+  font-size: 0.95rem;
+  color: var(--text-body);
+  opacity: 0.8;
+}
+
+.month-label-highlight {
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+/* Month Switcher Controls */
+.month-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 0.4rem;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  width: fit-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.control-btn {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-body);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.control-btn:hover {
+  background: #f8fafc;
+  color: var(--primary);
+  border-color: rgba(0, 122, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.control-btn:active {
+  transform: scale(0.98);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loader / Spinner */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  background: var(--surface-glass);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(79, 70, 229, 0.1);
+  border-left-color: #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader-container p {
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+/* Error Card */
+.error-container {
+  padding: 2.5rem;
+  background: rgba(254, 242, 242, 0.8);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: #991b1b;
+}
+
+.error-container h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Table Card & Scrollbar */
+.roster-card {
+  position: relative;
+  background: var(--surface-glass);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevated);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  padding: 0.4rem;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.roster-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  opacity: 0.32;
+}
+
+.roster-table-wrapper {
+  overflow-x: auto;
+  border-radius: calc(var(--radius-lg) - 4px);
+  -webkit-overflow-scrolling: touch;
+}
+
+.roster-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: transparent;
+}
+
+/* Table Headers */
+.roster-table thead tr.header-row-1 {
+  background: #1e293b;
+  color: white;
+  user-select: none;
+}
+
+.roster-table th {
+  padding: 0.8rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.roster-table thead tr.header-row-2 {
+  background: #334155;
+  color: white;
+  user-select: none;
+}
+
+.roster-table thead tr.header-row-2 th {
+  font-size: 0.7rem;
+}
+
+.ep-header-bg-1 {
+  background: #0f766e !important; /* teal-700 */
+}
+
+.ep-header-bg-2 {
+  background: #115e59 !important; /* teal-800 */
+}
+
+/* Table Body Rows & Cells */
+.roster-table tbody tr {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.roster-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.roster-table td {
+  padding: 0.6rem 0.5rem;
+  height: 56px;
+  vertical-align: middle;
+  border-right: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.roster-table td:last-child {
+  border-right: none;
+}
+
+/* Column Widths */
+.col-date {
+  width: 60px;
+  font-weight: 700;
+}
+
+.col-day {
+  width: 70px;
+  font-weight: 700;
+}
+
+.col-shift {
+  width: 20%;
+}
+
+.col-ep {
+  width: 20%;
+}
+
+/* Specific Cell Style States */
+.row-weekend {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.row-weekend .col-day {
+  color: #007aff;
+}
+
+.row-holiday {
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.row-holiday .col-date,
+.row-holiday .col-day {
+  color: #ef4444;
+}
+
+.row-today {
+  background: rgba(79, 70, 229, 0.06) !important;
+  box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.15);
+}
+
+.row-today .col-date {
+  color: #4f46e5;
+  position: relative;
+}
+
+.today-label {
+  display: block;
+  font-size: 7px;
+  font-weight: 800;
+  color: #4f46e5;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+.holiday-label {
+  display: block;
+  font-size: 7px;
+  font-weight: 800;
+  color: #ef4444;
+  margin-top: 2px;
+  text-transform: uppercase;
+  max-width: 65px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ep-cell {
+  background: rgba(15, 118, 110, 0.02);
+}
+
+.row-today .ep-cell {
+  background: rgba(79, 70, 229, 0.08) !important;
+}
+
+.row-weekend .ep-cell {
+  background: rgba(15, 118, 110, 0.04);
+}
+
+/* Doctor Chip Container & Chip */
+.doctor-chips-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.doctor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #334155;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 3px 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.doctor-chip:hover {
+  background: white;
+  border-color: rgba(79, 70, 229, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.doctor-chip.ep-doctor-chip {
+  color: #0f766e;
+  background: rgba(204, 251, 241, 0.4);
+  border-color: rgba(15, 118, 110, 0.1);
+}
+
+.doctor-chip.ep-doctor-chip:hover {
+  background: #f0fdfa;
+  border-color: rgba(15, 118, 110, 0.3);
+}
+
+/* Standby and Extended badges */
+.badge-standby {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f59e0b; /* amber-500 */
+  color: white;
+  font-size: 7px;
+  font-weight: 900;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.badge-extended {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #3b82f6; /* blue-500 */
+  color: white;
+  font-size: 7px;
+  font-weight: 900;
+  padding: 0 2px;
+  height: 13px;
+  border-radius: 3px;
+  line-height: 1;
+}
+
+.empty-cell-dash {
+  color: #cbd5e1;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Responsive Table Adjustments */
+@media (max-width: 768px) {
+  .roster-table {
+    font-size: 0.8rem;
+  }
+  
+  .roster-table th, 
+  .roster-table td {
+    padding: 0.5rem 0.3rem;
+  }
+
+  .col-date { width: 45px; }
+  .col-day { width: 50px; }
+  
+  .doctor-chip {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+  }
+}
