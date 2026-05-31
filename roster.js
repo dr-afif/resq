@@ -372,9 +372,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const doctors = dayAssignments[shiftKey];
         if (doctors && doctors.length > 0) {
           doctors.forEach((doc) => {
+            let formattedName = `<span>${doc}</span>`;
+            const docUpper = doc.toUpperCase().trim();
+            if (docUpper.startsWith('DR. ')) {
+              formattedName = `<span>DR.</span><br><span>${doc.trim().substring(4)}</span>`;
+            } else if (docUpper.startsWith('DR ')) {
+              formattedName = `<span>DR</span><br><span>${doc.trim().substring(3)}</span>`;
+            }
             tableHtml += `
-              <span class="doctor-chip ep-doctor-chip">
-                <span>${doc}</span>
+              <span class="doctor-chip ep-doctor-chip" style="flex-direction: column; align-items: center; text-align: center; line-height: 1.1; padding: 4px 6px;">
+                ${formattedName}
               </span>
             `;
           });

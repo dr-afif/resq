@@ -365,6 +365,11 @@
   color: #0f766e;
   background: rgba(204, 251, 241, 0.4);
   border-color: rgba(15, 118, 110, 0.1);
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1.1;
+  padding: 4px 6px;
 }
 
 .doctor-chip.ep-doctor-chip:hover {
