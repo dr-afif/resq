@@ -357,8 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
             tableHtml += `
               <span class="doctor-chip">
                 <span>${doc}</span>
-                ${isStandby ? '<span class="badge-standby" title="Standby">S</span>' : ''}
-                ${isExtended ? '<span class="badge-extended" title="Extended Shift">EX</span>' : ''}
               </span>
             `;
           });
