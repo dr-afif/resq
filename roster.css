@@ -407,22 +407,141 @@
   font-size: 0.9rem;
 }
 
-/* Responsive Table Adjustments */
+/* Responsive Table Adjustments to Fit Full Width on Mobile */
 @media (max-width: 768px) {
-  .roster-table {
-    font-size: 0.8rem;
-  }
-  
-  .roster-table th, 
-  .roster-table td {
-    padding: 0.5rem 0.3rem;
+  body {
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
   }
 
-  .col-date { width: 45px; }
-  .col-day { width: 50px; }
+  .roster-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    gap: 1rem;
+  }
+
+  .roster-card {
+    border-radius: 16px;
+    padding: 0;
+  }
+
+  .roster-table-wrapper {
+    border-radius: 16px;
+    overflow-x: hidden; /* Block horizontal scrolling completely */
+  }
+
+  .roster-table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 0.62rem;
+  }
+  
+  .roster-table th {
+    padding: 6px 2px;
+    font-size: 0.6rem;
+    letter-spacing: 0;
+  }
+  
+  .roster-table td {
+    padding: 6px 2px;
+    height: auto;
+    min-height: 45px;
+  }
+
+  .col-date {
+    width: 32px !important;
+  }
+
+  .col-day {
+    width: 32px !important;
+  }
+
+  .col-shift {
+    width: calc((100% - 64px) * 0.2) !important;
+  }
+
+  .col-ep {
+    width: calc((100% - 64px) * 0.2) !important;
+  }
+
+  .doctor-chips-container {
+    gap: 2px;
+  }
   
   .doctor-chip {
-    font-size: 0.68rem;
-    padding: 2px 6px;
+    font-size: 0.58rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    box-shadow: none;
+    letter-spacing: 0;
+    max-width: 100%;
+    word-break: break-all;
+    justify-content: center;
+  }
+
+  .doctor-chip.ep-doctor-chip {
+    background: rgba(204, 251, 241, 0.3);
+  }
+
+  .badge-standby, 
+  .badge-extended {
+    width: 10px;
+    height: 10px;
+    font-size: 6px;
+    line-height: 10px;
+  }
+
+  .today-label, 
+  .holiday-label {
+    font-size: 5.5px;
+    margin-top: 1px;
+    letter-spacing: 0;
+  }
+
+  .empty-cell-dash {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
+
+  .roster-table {
+    font-size: 0.54rem;
+  }
+  
+  .roster-table th {
+    font-size: 0.52rem;
+  }
+
+  .col-date {
+    width: 25px !important;
+  }
+
+  .col-day {
+    width: 25px !important;
+  }
+
+  .col-shift {
+    width: calc((100% - 50px) * 0.2) !important;
+  }
+
+  .col-ep {
+    width: calc((100% - 50px) * 0.2) !important;
+  }
+
+  .doctor-chip {
+    font-size: 0.5rem;
+    padding: 1px 2px;
+  }
+  
+  .today-label, 
+  .holiday-label {
+    font-size: 5px;
   }
 }
