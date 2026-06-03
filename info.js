@@ -1,0 +1,129 @@
+document.addEventListener('DOMContentLoaded', () => {
+  // --- Tab Switching Logic ---
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-target');
+
+      // Update active tab buttons
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Update active content sections
+      tabContents.forEach(content => {
+        if (content.id === targetId) {
+          content.classList.add('active');
+        } else {
+          content.classList.remove('active');
+        }
+      });
+    });
+  });
+
+  // --- Contacts Directory System ---
+  const contactsData = [
+    { name: 'Red Zone (Resus Primary)', extension: '4001', category: 'Emergency Zones' },
+    { name: 'Yellow Zone (Semi-Critical)', extension: '4002', category: 'Emergency Zones' },
+    { name: 'Green Zone (Non-Critical)', extension: '4003', category: 'Emergency Zones' },
+    { name: 'Triage Desk', extension: '4000', category: 'Emergency Zones' },
+    { name: 'Medical On-Call MO', extension: '4110', category: 'Specialty On-Call' },
+    { name: 'Surgical On-Call MO', extension: '4120', category: 'Specialty On-Call' },
+    { name: 'Orthopedic On-Call MO', extension: '4130', category: 'Specialty On-Call' },
+    { name: 'O&G On-Call MO', extension: '4150', category: 'Specialty On-Call' },
+    { name: 'Pediatric On-Call MO', extension: '4140', category: 'Specialty On-Call' },
+    { name: 'Stat Hematology Lab', extension: '3005', category: 'Labs & Diagnostics' },
+    { name: 'Emergency Radiology (X-Ray/CT)', extension: '3012', category: 'Labs & Diagnostics' },
+    { name: 'Blood Bank Depot', extension: '3020', category: 'Labs & Diagnostics' },
+    { name: 'Emergency Pharmacy', extension: '5008', category: 'Support & Services' },
+    { name: 'Central Bed Management', extension: '2015', category: 'Support & Services' },
+    { name: 'Admission Counter', extension: '2050', category: 'Support & Services' }
+  ];
+
+  const contactsList = document.getElementById('contacts-list');
+  const searchInput = document.getElementById('contact-search');
+
+  function renderContacts(filter = '') {
+    if (!contactsList) return;
+    contactsList.innerHTML = '';
+
+    const query = filter.toLowerCase().trim();
+    const filtered = contactsData.filter(contact => 
+      contact.name.toLowerCase().includes(query) || 
+      contact.extension.includes(query) ||
+      contact.category.toLowerCase().includes(query)
+    );
+
+    if (filtered.length === 0) {
+      contactsList.innerHTML = `
+        <div class="no-results">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          <p>No contacts found matching "${filter}"</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Group by category
+    const categories = [...new Set(filtered.map(item => item.category))];
+
+    categories.forEach(cat => {
+      const catGroup = document.createElement('div');
+      catGroup.className = 'contact-category-group';
+      
+      const catTitle = document.createElement('h3');
+      catTitle.textContent = cat;
+      catGroup.appendChild(catTitle);
+
+      const listContainer = document.createElement('div');
+      listContainer.className = 'contacts-inner-list';
+
+      filtered.filter(item => item.category === cat).forEach(contact => {
+        const item = document.createElement('div');
+        item.className = 'contact-item-card';
+        item.innerHTML = `
+          <div class="contact-info">
+            <span class="contact-name">${contact.name}</span>
+            <span class="contact-category">${contact.category}</span>
+          </div>
+          <a href="tel:${contact.extension}" class="contact-extension">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            ${contact.extension}
+          </a>
+        `;
+        listContainer.appendChild(item);
+      });
+
+      catGroup.appendChild(listContainer);
+      contactsList.appendChild(catGroup);
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      renderContacts(e.target.value);
+    });
+  }
+
+  // Initial Contacts Render
+  renderContacts();
+
+  // --- Accordion FAQ Logic ---
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  faqItems.forEach(item => {
+    const trigger = item.querySelector('.faq-trigger');
+    trigger.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+
+      // Collapse all FAQ items
+      faqItems.forEach(faq => faq.classList.remove('active'));
+
+      // If it wasn't active, expand it
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    });
+  });
+});

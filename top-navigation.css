@@ -1,126 +1,121 @@
-/* Top Navigation iOS Liquid Glass Aesthetic */
+/* Premium Top Navigation Styles */
+
 .top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: clamp(60px, 10vh, 80px);
-    background: var(--surface-glass, rgba(255, 255, 255, 0.45));
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border-bottom: 1px solid var(--surface-border, rgba(255, 255, 255, 0.35));
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 clamp(1rem, 5vw, 2.5rem);
-    z-index: 2000;
-    padding-top: env(safe-area-inset-top, 0);
-    transition: height 0.3s ease;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--radius-md, 20px);
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.02);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 2000;
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .top-nav .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--text-heading, #1d1d1f);
-    font-weight: 700;
-    font-size: 1.2rem;
-    letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--text-main, #0f172a);
 }
 
-/* Target the image directly since it has class 'nav-logo' */
 .top-nav img.nav-logo {
-    height: 64px;
-    width: auto;
+  height: 38px;
+  width: auto;
+  border-radius: 8px;
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.top-nav .nav-brand:hover img.nav-logo {
+  transform: scale(1.08);
+}
+
+.top-nav .nav-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--primary, #4f46e5), #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .top-nav .nav-links {
-    display: flex;
-    gap: clamp(1rem, 3vw, 2rem);
-    align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .top-nav .nav-link {
-    text-decoration: none;
-    color: var(--text-body, #424245);
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    padding: 8px 12px;
-    border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--text-muted, #475569);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-pill, 999px);
+  transition: var(--transition-fast, all 0.15s cubic-bezier(0.16, 1, 0.3, 1));
+  border: 1px solid transparent;
+}
+
+.top-nav .nav-link-icon {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
 }
 
 .top-nav .nav-link:hover {
-    background: rgba(0, 122, 255, 0.1);
-    color: var(--primary, #007aff);
+  background: var(--primary-soft, #e0e7ff);
+  color: var(--primary, #4f46e5);
 }
 
 .top-nav .nav-link.active {
-    color: var(--primary, #007aff);
-    font-weight: 600;
+  background: var(--primary, #4f46e5);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
 body {
-    padding-top: calc(clamp(60px, 10vh, 80px) + 2rem + env(safe-area-inset-top, 0));
+  padding-top: calc(64px + 3rem);
 }
 
-/* Extra padding for mobile stacked nav */
-@media (max-width: 600px) {
-    body {
-        padding-top: 100px !important;
-        /* Adjusted for compact header */
-    }
-}
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .top-nav {
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    height: 52px;
+    padding: 0 1rem;
+    justify-content: center; /* Center the logo and branding */
+  }
 
-/* Dark mode support removed by user request */
+  .top-nav .nav-links {
+    display: none !important; /* Hide top links, mobile uses bottom-nav instead */
+  }
 
-@media (max-width: 600px) {
-    .top-nav {
-        /* Allow height to grow for stacked layout */
-        height: auto;
-        min-height: 80px;
-        flex-direction: column;
-        justify-content: center;
-        gap: 8px;
-        padding-bottom: 12px;
-    }
+  .top-nav img.nav-logo {
+    height: 32px;
+  }
 
-    .top-nav .nav-brand {
-        /* Center brand */
-        margin-right: 0;
-    }
+  .top-nav .nav-title {
+    font-size: 1.15rem;
+  }
 
-    .top-nav .nav-links {
-        /* Move links below */
-        width: 100%;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-
-    .top-nav .nav-link {
-        font-size: 0.85rem;
-        padding: 6px 12px;
-        background: rgba(0, 0, 0, 0.03);
-        /* Subtle bg for buttons */
-    }
-
-    /* Keep the text visible but maybe smaller? Or keep hiding it if preferred. 
-       User asked to center the logo. 
-       Usually centering strictly the image is enough. */
-    .top-nav .nav-logo {
-        justify-content: center;
-        padding-top: 6px;
-    }
-
-    .top-nav img.nav-logo {
-        height: 48px !important;
-        /* Directly set to 48px (slightly smaller than 64px) */
-        width: auto;
-    }
-
-    .top-nav .nav-title {
-        display: none !important;
-        /* Force hide the RESQ text */
-    }
+  body {
+    padding-top: calc(52px + 2rem) !important;
+  }
 }

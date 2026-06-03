@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let masterRoster = [];
   let isSyncing = false;
   let activeMonth = ""; // Format: YYYY-MM
+  let searchQuery = "";
 
   // Initialize Month to Current Date
   const today = new Date();
@@ -84,6 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (prevBtn) prevBtn.addEventListener('click', handlePrevMonth);
   if (nextBtn) nextBtn.addEventListener('click', handleNextMonth);
   if (currentBtn) currentBtn.addEventListener('click', handleCurrentMonth);
+
+  const searchInput = document.getElementById('roster-doctor-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      render();
+    });
+  }
 
   // Initial render with cached data (if available) and background fetch
   render();
@@ -354,8 +363,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const rawShift = doctorRosterMap[nameKey]?.[dateStr] || '';
             const { isStandby, isExtended } = parseShiftValue(rawShift);
 
+            const isMatch = searchQuery && doc.toLowerCase().includes(searchQuery);
+            const highlightClass = isMatch ? ' highlighted' : '';
+
             tableHtml += `
-              <span class="doctor-chip">
+              <span class="doctor-chip${highlightClass}">
                 <span>${doc}</span>
               </span>
             `;
@@ -379,8 +391,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (docUpper.startsWith('DR ')) {
               formattedName = `<span>DR</span><br><span>${doc.trim().substring(3)}</span>`;
             }
+            
+            const isMatch = searchQuery && doc.toLowerCase().includes(searchQuery);
+            const highlightClass = isMatch ? ' highlighted' : '';
+
             tableHtml += `
-              <span class="doctor-chip ep-doctor-chip" style="flex-direction: column; align-items: center; text-align: center; line-height: 1.1; padding: 4px 6px;">
+              <span class="doctor-chip ep-doctor-chip${highlightClass}">
                 ${formattedName}
               </span>
             `;

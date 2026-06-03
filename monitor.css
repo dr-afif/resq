@@ -25,14 +25,19 @@
 }
 
 .last-updated {
-    margin-top: 10px;
-    font-size: 0.9rem;
-    color: #888;
-    font-family: monospace;
-    background: rgba(255, 255, 255, 0.5);
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12px auto 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary, #4f46e5);
+    background: var(--primary-soft, #e0e7ff);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: inherit;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.05);
 }
 
 /* Grid Layout */
@@ -68,6 +73,25 @@
 .zone-icon {
     font-size: 1.5rem;
     margin-right: 12px;
+}
+
+.zone-icon-svg {
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.zone-icon-svg.green {
+    color: #27ae60;
+}
+
+.zone-icon-svg.yellow {
+    color: #f39c12;
+}
+
+.zone-icon-svg.red {
+    color: #c0392b;
 }
 
 .stat-card h2 {

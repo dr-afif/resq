@@ -1,0 +1,13 @@
+{
+  "name": "resq",
+  "version": "1.0.0",
+  "description": "Emergency department capacity and roster dashboard",
+  "scripts": {
+    "dev": "serve",
+    "start": "serve"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.3"
+  }
+}

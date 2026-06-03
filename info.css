@@ -1,0 +1,356 @@
+/* Info Centre Styling */
+
+.info-container {
+  width: min(100%, 800px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.info-header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Tabs Control Segmented Switch */
+.tabs-control {
+  display: flex;
+  background: #f1f5f9;
+  padding: 0.35rem;
+  border-radius: var(--radius-md, 20px);
+  border: 1px solid #e2e8f0;
+  gap: 0.25rem;
+}
+
+.tab-btn {
+  flex: 1;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.8rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #475569);
+  cursor: pointer;
+  border-radius: calc(var(--radius-md, 20px) - 4px);
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.tab-btn.active {
+  background: #ffffff;
+  color: var(--primary, #4f46e5);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.02);
+}
+
+/* Tab Contents Display */
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 1. Contacts Directory Styling */
+.search-bar-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.search-bar-container input {
+  width: 100%;
+  padding: 1.1rem 1.25rem 1.1rem 3.25rem;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: var(--radius-md, 20px);
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text-main, #0f172a);
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.search-bar-container input:focus {
+  border-color: var(--primary, #4f46e5);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+}
+
+.search-bar-container .search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  stroke: var(--text-placeholder, #94a3b8);
+  pointer-events: none;
+}
+
+.contacts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-category-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-category-group h3 {
+  font-size: 1rem;
+  color: var(--text-muted, #475569);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-left: 0.25rem;
+}
+
+.contacts-inner-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.contact-item-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--radius-sm, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+  transition: var(--transition-fast, all 0.15s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.contact-item-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.06);
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.contact-name {
+  font-weight: 600;
+  color: var(--text-main, #0f172a);
+  font-size: 0.95rem;
+}
+
+.contact-category {
+  font-size: 0.75rem;
+  color: var(--text-muted, #475569);
+}
+
+.contact-extension {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--primary-soft, #e0e7ff);
+  color: var(--primary, #4f46e5);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-pill, 999px);
+  text-decoration: none;
+  transition: var(--transition-fast, all 0.15s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.contact-extension svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.contact-extension:hover {
+  background: var(--primary, #4f46e5);
+  color: #ffffff;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted, #475569);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.no-results svg {
+  width: 48px;
+  height: 48px;
+  stroke: var(--text-placeholder, #94a3b8);
+}
+
+/* 2. Guidelines Styling */
+.guidelines-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.guideline-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 1.5rem;
+  border-radius: var(--radius-md, 20px);
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.card-badge {
+  align-self: flex-start;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill, 999px);
+  background: var(--primary-soft, #e0e7ff);
+  color: var(--primary, #4f46e5);
+}
+
+.guideline-card h3 {
+  font-size: 1.2rem;
+  color: var(--text-main, #0f172a);
+}
+
+.guideline-steps {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-muted, #475569);
+}
+
+.guideline-steps li {
+  line-height: 1.5;
+}
+
+/* 3. FAQs Accordion Styling */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--radius-sm, 12px);
+  overflow: hidden;
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.faq-trigger {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-main, #0f172a);
+  text-align: left;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-fast, all 0.15s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.faq-trigger:hover {
+  background: rgba(79, 70, 229, 0.02);
+  color: var(--primary, #4f46e5);
+}
+
+.faq-trigger svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--text-muted, #475569);
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.faq-body {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1.5rem;
+  transition: var(--transition-smooth, all 0.3s cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.faq-body p {
+  margin: 0;
+  padding-bottom: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted, #475569);
+}
+
+/* Active faq state */
+.faq-item.active {
+  border-color: rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.04);
+}
+
+.faq-item.active .faq-trigger {
+  color: var(--primary, #4f46e5);
+}
+
+.faq-item.active .faq-trigger svg {
+  transform: rotate(180deg);
+  stroke: var(--primary, #4f46e5);
+}
+
+.faq-item.active .faq-body {
+  max-height: 200px; /* arbitrary height to slide down */
+}
+
+@media (max-width: 600px) {
+  .tabs-control {
+    border-radius: var(--radius-sm, 12px);
+    padding: 0.25rem;
+  }
+  
+  .tab-btn {
+    border-radius: calc(var(--radius-sm, 12px) - 2px);
+    font-size: 0.85rem;
+    padding: 0.65rem 0.5rem;
+  }
+
+  .contacts-inner-list {
+    grid-template-columns: 1fr;
+  }
+
+  .guideline-card {
+    padding: 1.1rem;
+  }
+  
+  .faq-trigger {
+    padding: 1.1rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  .faq-body {
+    padding: 0 1.2rem;
+  }
+}

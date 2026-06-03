@@ -6,6 +6,7 @@ function initTopNav() {
     if (path === 'index.html' || path === '') activeId = 'nav-dashboard';
     else if (path === 'webform1.html') activeId = 'nav-referral';
     else if (path === 'roster.html') activeId = 'nav-roster';
+    else if (path === 'info.html') activeId = 'nav-info';
 
     if (activeId) {
         const el = document.getElementById(activeId);

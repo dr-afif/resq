@@ -4,13 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Dashboard</title>
+  <title>RESQ Dashboard</title>
   <link rel="stylesheet" href="dashboard.css" />
   <link rel="stylesheet" href="top-navigation.css" />
   <link rel="stylesheet" href="monitor.css" />
-  <!-- Font Awesome (for icons if needed, optional) -->
   <link rel="manifest" href="manifest.json" />
-  <!-- Helper for local screenshot fallback (optional) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
@@ -20,22 +18,25 @@
 
   <main class="dashboard">
 
-    <div class="card complex-card">
+    <!-- Capacity Monitor Card -->
+    <div class="card complex-card" style="grid-column: 1 / -1;">
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <!-- Live Zone Status Slide -->
           <div class="swiper-slide zone-slide">
-            <div class="header-section" style="margin-bottom: 20px;">
-              <h1 style="font-size: 2rem; margin-bottom: 5px;">Live Zone Status</h1>
-              <p class="subtitle" style="font-size: 1rem;">Real-time emergency department capacity</p>
-              <div id="last-updated" class="last-updated" style="font-size: 0.8rem;">Waiting for current data...</div>
+            <div class="header-section" style="margin-bottom: 25px; text-align: center;">
+              <h1 style="font-size: 2.2rem; margin-bottom: 6px; background: linear-gradient(135deg, var(--text-main), #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Live Zone Status</h1>
+              <p class="subtitle" style="font-size: 1rem; margin: 0; color: var(--text-muted);">Real-time emergency department capacity</p>
+              <div id="last-updated" class="last-updated" style="font-size: 0.8rem; margin-top: 8px;">Waiting for current data...</div>
             </div>
 
             <div class="stats-grid">
               <!-- Green Zone -->
               <div class="stat-card green-zone">
                 <div class="card-header">
-                  <div class="zone-icon">🟢</div>
+                  <svg class="zone-icon-svg green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                  </svg>
                   <h2>Green Zone</h2>
                 </div>
                 <div class="main-metric">
@@ -62,7 +63,10 @@
               <!-- Yellow Zone -->
               <div class="stat-card yellow-zone">
                 <div class="card-header">
-                  <div class="zone-icon">🟡</div>
+                  <svg class="zone-icon-svg yellow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                  </svg>
                   <h2>Yellow Zone</h2>
                 </div>
                 <div class="main-metric">
@@ -89,7 +93,10 @@
               <!-- Red Zone -->
               <div class="stat-card red-zone">
                 <div class="card-header">
-                  <div class="zone-icon">🔴</div>
+                  <svg class="zone-icon-svg red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                  </svg>
                   <h2>Red Zone</h2>
                 </div>
                 <div class="main-metric">
@@ -119,40 +126,33 @@
     </div>
 
     <!-- Referral Card -->
-    <div class="card" onclick="location.href='webform1.html'">
-      <h2>📝 Referral from FMC/PKU</h2>
-      <p>Fill in and submit the form if receiving pt from FMC or PKU</p>
-    </div>
+    <a href="webform1.html" class="card">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Referral from FMC/PKU
+      </h2>
+      <p>Submit patient referral details from FMC or PKU directly to the RESQ dashboard.</p>
+    </a>
 
     <!-- Roster Card -->
-    <div class="card" onclick="location.href='roster.html'">
-      <h2>📅 Full Roster</h2>
-      <p>View the finalized monthly schedule for Medical Officers and Emergency Physicians.</p>
-    </div>
+    <a href="roster.html" class="card">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Full Roster
+      </h2>
+      <p>View finalized monthly shifts, on-call charts, and assignments for Medical Officers.</p>
+    </a>
+
+    <!-- Info Centre Card -->
+    <a href="info.html" class="card">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Info Centre
+      </h2>
+      <p>Access department quick contacts, emergency guidelines, protocols, and FAQs.</p>
+    </a>
+
   </main>
-
-  <!-- IMPORTANT: Logic for Swiper Dots -->
-  <!-- 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const swiper = document.querySelector('.swiper-container');
-      const dots = document.querySelectorAll('.swiper-dot');
-
-      if (swiper) {
-        swiper.addEventListener('scroll', () => {
-          const scrollPosition = swiper.scrollLeft;
-          const width = swiper.offsetWidth;
-          const activeIndex = Math.round(scrollPosition / width);
-
-          dots.forEach((dot, index) => {
-            if (index === activeIndex) dot.classList.add('active');
-            else dot.classList.remove('active');
-          });
-        });
-      }
-    });
-  </script>
-  -->
 
   <script src="app.js"></script>
   <script src="monitor.js"></script>

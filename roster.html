@@ -18,14 +18,20 @@
   <!-- Main Content Layout -->
   <main class="roster-container">
     <div class="roster-header">
-      <div class="roster-title-section">
+      <div class="card roster-title-card">
         <h1>Full Roster</h1>
         <p>Displaying the official finalized schedule for <span id="active-month-label" class="month-label-highlight">Loading...</span>.</p>
       </div>
-      <div class="month-controls">
-        <button id="prev-month-btn" class="control-btn">‹ Prev</button>
-        <button id="current-month-btn" class="control-btn">Current Month</button>
-        <button id="next-month-btn" class="control-btn">Next ›</button>
+      <div class="roster-controls-wrapper">
+        <div class="search-filter-box">
+          <input type="text" id="roster-doctor-search" placeholder="Search Doctor's name...">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="month-controls">
+          <button id="prev-month-btn" class="control-btn">‹ Prev</button>
+          <button id="current-month-btn" class="control-btn">Current</button>
+          <button id="next-month-btn" class="control-btn">Next ›</button>
+        </div>
       </div>
     </div>
 

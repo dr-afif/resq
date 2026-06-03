@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Info Centre</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="top-navigation.css">
+  <link rel="stylesheet" href="info.css">
+</head>
+
+<body>
+  <div id="topnav-container"></div>
+  <script src="top-navigation.js"></script>
+
+  <main class="info-container">
+    <div class="info-header">
+      <h1>Info Centre</h1>
+      <p class="subtitle">Quick clinical references, contacts directory, and department FAQs</p>
+    </div>
+
+    <!-- Segmented Control for Sections -->
+    <div class="tabs-control">
+      <button class="tab-btn active" data-target="contacts-section">Contacts</button>
+      <button class="tab-btn" data-target="guidelines-section">Guidelines</button>
+      <button class="tab-btn" data-target="faq-section">FAQs</button>
+    </div>
+
+    <!-- 1. Contacts Directory Section -->
+    <section id="contacts-section" class="tab-content active">
+      <div class="search-bar-container">
+        <input type="text" id="contact-search" placeholder="Search contacts (e.g. triage, ward, lab)...">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+
+      <div class="contacts-grid" id="contacts-list">
+        <!-- Contacts will be dynamically loaded here by info.js -->
+      </div>
+    </section>
+
+    <!-- 2. Guidelines & Flowcharts Section -->
+    <section id="guidelines-section" class="tab-content">
+      <div class="guidelines-grid">
+        <div class="guideline-card">
+          <div class="card-badge">Triage SOP</div>
+          <h3>Emergency Department Triage Pathway</h3>
+          <p>Standard protocols for zoning patients entering the Emergency Department based on severity:</p>
+          <ul class="guideline-steps">
+            <li><strong>🟢 Green (Non-Critical):</strong> Minor ailments, stable vitals. Max wait target: 4h.</li>
+            <li><strong>🟡 Yellow (Semi-Critical):</strong> Moderate distress, potential threat. Max wait target: 4h (Seen) / 6h (Admitted).</li>
+            <li><strong>🔴 Red (Critical/Resus):</strong> Threatened airway, hemodynamically unstable. Immediate response.</li>
+          </ul>
+        </div>
+
+        <div class="guideline-card">
+          <div class="card-badge">Referral</div>
+          <h3>FMC/PKU Referral Checklist</h3>
+          <p>Ensure these details are ready before filling in the Referral Form:</p>
+          <ul class="guideline-steps">
+            <li>Ensure Patient Name & MRN are double-checked.</li>
+            <li>Identify the referring Doctor (FMC/PKU name) and the receiving MO.</li>
+            <li>Select the correct target Primary Team (e.g. Med, Surgical, Ortho, O&G).</li>
+            <li>Define the clinical Plan and target zone (YZ/RZ/Non).</li>
+          </ul>
+        </div>
+
+        <div class="guideline-card">
+          <div class="card-badge">Handover</div>
+          <h3>SBAR Handover Protocol</h3>
+          <p>Use the structured SBAR template during handovers to departments:</p>
+          <ul class="guideline-steps">
+            <li><strong>S (Situation):</strong> Patient name, age, MRN, diagnosis.</li>
+            <li><strong>B (Background):</strong> Brief history, allergies, relevant investigations.</li>
+            <li><strong>A (Assessment):</strong> Current vitals, GCS, treatments given.</li>
+            <li><strong>R (Recommendation):</strong> Explicit plan, pending labs, target team.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. FAQs Section -->
+    <section id="faq-section" class="tab-content">
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>How do I submit a patient referral?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-body">
+            <p>Go to the <strong>Referral</strong> tab, fill out all required details (Patient Name, MRN, diagnosis, etc.), and click "Send to RESQ SEU". This will save the details to Google Sheets and copy a formatted message to your clipboard for WhatsApp pasting.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Where can I see the Medical Officer roster?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-body">
+            <p>Click on the <strong>Roster</strong> tab in the navigation bar to view the official schedule. You can filter by name or shift, and navigate between months using the Prev/Next buttons.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>What are the target waiting time breach limits?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-body">
+            <p>Green, Yellow, and Red zones have warning alerts when patient waiting times exceed 4 hours or 6 hours. These stats are tracked in real-time on the main Dashboard.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="navbar-container"></div>
+  <script>
+    fetch('navbar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'navbar.css';
+        document.head.appendChild(link);
+      });
+  </script>
+
+  <script src="info.js"></script>
+</body>
+
+</html>
