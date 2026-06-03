@@ -77,6 +77,10 @@ body {
   gap: 1.5rem;
 }
 
+.referral-queue-panel {
+  display: none !important;
+}
+
 .login-box .user-box {
   position: relative;
   display: flex;
@@ -238,14 +242,14 @@ center {
 @media (max-width: 768px) {
   body {
     padding-top: calc(52px + 1.25rem) !important;
-    padding-bottom: calc(220px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: calc(168px + env(safe-area-inset-bottom, 0px)) !important;
     padding-inline: 0.75rem;
     overflow-x: hidden;
   }
   
   .login-box {
-    margin: 0.5rem auto 180px !important;
-    padding: 1.25rem 1rem 1.25rem;
+    margin: 0.5rem auto 130px !important;
+    padding: 1.25rem 1rem 0.75rem;
     border-radius: var(--radius-md);
     overflow: visible;
     backdrop-filter: none;
@@ -259,7 +263,7 @@ center {
   
   .login-box form {
     gap: 1.15rem;
-    padding-bottom: calc(128px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   }
 
   .login-box .user-box {

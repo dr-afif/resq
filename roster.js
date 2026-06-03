@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     const systemTodayStr = toIsoDate(new Date());
-    let mobileCardsHtml = '';
+    let mobileAgendaHtml = '';
 
     function renderDoctorChips(doctors, dateStr, isEp = false) {
       if (!doctors || doctors.length === 0) {
@@ -422,39 +422,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const dayAssignments = rosterGrid[dateStr] || { AM: [], PM: [], NIGHT: [], EP_OFFICE_HOUR: [], EP_ONCALL: [] };
 
-      mobileCardsHtml += `
-        <article class="roster-day-card ${rowClass}">
-          <div class="roster-day-card-header">
-            <div>
-              <div class="roster-day-card-date">${dayNum}</div>
-              <div class="roster-day-card-day" title="${holidayName}">${dayName}</div>
-            </div>
-            <div class="roster-day-card-labels">
-              ${isToday ? '<span class="today-label">TODAY</span>' : ''}
-              ${isHoliday ? `<span class="holiday-label" title="${holidayName}">${holidayName}</span>` : ''}
-            </div>
+      mobileAgendaHtml += `
+        <article class="roster-agenda-row ${rowClass}">
+          <div class="roster-agenda-date">
+            <span class="agenda-day-num">${dayNum}</span>
+            <span class="agenda-day-name" title="${holidayName}">${dayName}</span>
+            ${isToday ? '<span class="today-label">TODAY</span>' : ''}
+            ${isHoliday ? `<span class="holiday-label" title="${holidayName}">${holidayName}</span>` : ''}
           </div>
-          <div class="roster-day-card-shifts">
-            <section class="roster-mobile-shift">
-              <h3>AM</h3>
-              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.AM, dateStr)}</div>
-            </section>
-            <section class="roster-mobile-shift">
-              <h3>PM</h3>
-              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.PM, dateStr)}</div>
-            </section>
-            <section class="roster-mobile-shift">
-              <h3>Night</h3>
-              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.NIGHT, dateStr)}</div>
-            </section>
-            <section class="roster-mobile-shift ep-mobile-shift">
-              <h3>EP Office Hour</h3>
-              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.EP_OFFICE_HOUR, dateStr, true)}</div>
-            </section>
-            <section class="roster-mobile-shift ep-mobile-shift">
-              <h3>EP On Call</h3>
-              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.EP_ONCALL, dateStr, true)}</div>
-            </section>
+          <div class="roster-agenda-shifts">
+            <div class="agenda-shift"><span class="agenda-shift-label">AM</span><div class="doctor-chips-container">${renderDoctorChips(dayAssignments.AM, dateStr)}</div></div>
+            <div class="agenda-shift"><span class="agenda-shift-label">PM</span><div class="doctor-chips-container">${renderDoctorChips(dayAssignments.PM, dateStr)}</div></div>
+            <div class="agenda-shift"><span class="agenda-shift-label">N</span><div class="doctor-chips-container">${renderDoctorChips(dayAssignments.NIGHT, dateStr)}</div></div>
+            <div class="agenda-shift ep-agenda-shift"><span class="agenda-shift-label">EP OH</span><div class="doctor-chips-container">${renderDoctorChips(dayAssignments.EP_OFFICE_HOUR, dateStr, true)}</div></div>
+            <div class="agenda-shift ep-agenda-shift"><span class="agenda-shift-label">EP OC</span><div class="doctor-chips-container">${renderDoctorChips(dayAssignments.EP_ONCALL, dateStr, true)}</div></div>
           </div>
         </article>
       `;
@@ -514,8 +495,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </tbody>
           </table>
         </div>
-        <div class="roster-mobile-cards">
-          ${mobileCardsHtml}
+        <div class="roster-mobile-agenda">
+          ${mobileAgendaHtml}
         </div>
       </div>
     `;

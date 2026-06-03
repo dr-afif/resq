@@ -14,7 +14,7 @@
     statusEl.setAttribute("aria-live", "polite");
     statusEl.style.position = "fixed";
     statusEl.style.left = "50%";
-    statusEl.style.bottom = "calc(1rem + env(safe-area-inset-bottom, 0px))";
+    statusEl.style.top = "calc(0.75rem + env(safe-area-inset-top, 0px))";
     statusEl.style.transform = "translateX(-50%)";
     statusEl.style.zIndex = "3000";
     statusEl.style.padding = "0.65rem 1rem";
@@ -39,6 +39,8 @@
     const el = ensureStatusEl();
     clearTimeout(hideTimer);
     el.textContent = message;
+    el.style.top = options.position === "bottom" ? "auto" : "calc(0.75rem + env(safe-area-inset-top, 0px))";
+    el.style.bottom = options.position === "bottom" ? "calc(5.75rem + env(safe-area-inset-bottom, 0px))" : "auto";
     el.style.opacity = "1";
     el.style.visibility = "visible";
 
@@ -60,7 +62,7 @@
     if (navigator.onLine) {
       hideStatus();
     } else {
-      showStatus(OFFLINE_MESSAGE);
+      showStatus(OFFLINE_MESSAGE, { position: "bottom" });
     }
   }
 
@@ -68,7 +70,7 @@
     syncOfflineStatus();
 
     window.addEventListener("offline", () => {
-      showStatus(OFFLINE_MESSAGE);
+      showStatus(OFFLINE_MESSAGE, { position: "bottom" });
     });
 
     window.addEventListener("online", () => {

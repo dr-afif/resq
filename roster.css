@@ -212,7 +212,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.roster-mobile-cards {
+.roster-mobile-agenda {
   display: none;
 }
 
@@ -511,137 +511,141 @@
     display: none;
   }
 
-  .roster-mobile-cards {
+  .roster-mobile-agenda {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.35rem;
     width: 100%;
   }
 
-  .roster-day-card {
+  .roster-agenda-row {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: 0.45rem;
+    align-items: stretch;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--card-shadow);
-    padding: 1rem;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
+    padding: 0.45rem;
     overflow: hidden;
   }
 
-  .roster-day-card.row-weekend {
+  .roster-agenda-row.row-weekend {
     background: #f8fafc;
   }
 
-  .roster-day-card.row-holiday {
+  .roster-agenda-row.row-holiday {
     background: #fee2e2;
     border-color: rgba(239, 68, 68, 0.25);
   }
 
-  .roster-day-card.row-today {
+  .roster-agenda-row.row-today {
     background: rgba(79, 70, 229, 0.06);
     border-color: rgba(79, 70, 229, 0.2);
   }
 
-  .roster-day-card-header {
+  .roster-agenda-date {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.85rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.15rem;
+    padding-top: 0.1rem;
+    text-align: center;
+    min-width: 0;
   }
 
-  .roster-day-card-date {
+  .agenda-day-num {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.35rem;
     font-weight: 800;
     line-height: 1;
     color: var(--text-main);
   }
 
-  .roster-day-card-day {
-    margin-top: 0.2rem;
-    font-size: 0.85rem;
+  .agenda-day-name {
+    font-size: 0.7rem;
     font-weight: 700;
     color: var(--text-muted);
+    line-height: 1;
   }
 
-  .roster-day-card.row-holiday .roster-day-card-date,
-  .roster-day-card.row-holiday .roster-day-card-day {
+  .roster-agenda-row.row-holiday .agenda-day-num,
+  .roster-agenda-row.row-holiday .agenda-day-name {
     color: var(--color-red);
   }
 
-  .roster-day-card.row-today .roster-day-card-date {
+  .roster-agenda-row.row-today .agenda-day-num {
     color: var(--primary);
   }
 
-  .roster-day-card-labels {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0.35rem;
-    max-width: 70%;
-  }
-
-  .roster-day-card .today-label,
-  .roster-day-card .holiday-label {
+  .roster-agenda-row .today-label,
+  .roster-agenda-row .holiday-label {
     display: inline-flex;
     align-items: center;
     width: auto;
     margin: 0;
-    padding: 0.25rem 0.5rem;
+    max-width: 100%;
+    padding: 0.15rem 0.3rem;
     border-radius: var(--radius-pill);
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
+    font-size: 0.5rem;
+    letter-spacing: 0.02em;
     line-height: 1;
+    white-space: normal;
   }
 
-  .roster-day-card-shifts {
+  .roster-agenda-shifts {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.65rem;
+    gap: 0.22rem;
+    min-width: 0;
   }
 
-  .roster-mobile-shift {
+  .agenda-shift {
     display: grid;
-    grid-template-columns: minmax(7rem, 34%) 1fr;
-    gap: 0.75rem;
-    align-items: start;
-    padding: 0.7rem;
-    border: 1px solid #e2e8f0;
-    border-radius: var(--radius-sm);
+    grid-template-columns: 2.7rem minmax(0, 1fr);
+    gap: 0.35rem;
+    align-items: center;
+    padding: 0.22rem 0.35rem;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.62);
+    min-width: 0;
   }
 
-  .roster-mobile-shift h3 {
-    margin: 0;
-    font-size: 0.78rem;
+  .agenda-shift-label {
+    font-size: 0.62rem;
     font-weight: 800;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
 
-  .roster-mobile-shift.ep-mobile-shift {
+  .agenda-shift.ep-agenda-shift {
     background: rgba(204, 251, 241, 0.32);
-    border-color: rgba(15, 118, 110, 0.15);
   }
 
-  .roster-mobile-shift.ep-mobile-shift h3 {
+  .agenda-shift.ep-agenda-shift .agenda-shift-label {
     color: #0f766e;
   }
 
-  .roster-mobile-shift .doctor-chips-container {
+  .agenda-shift .doctor-chips-container {
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 0.35rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.18rem;
+    min-width: 0;
   }
 
-  .roster-mobile-shift .doctor-chip {
+  .agenda-shift .doctor-chip {
     width: auto;
     max-width: 100%;
     display: inline-flex;
-    padding: 0.35rem 0.55rem;
-    font-size: 0.78rem;
-    line-height: 1.2;
+    padding: 0.18rem 0.35rem;
+    font-size: 0.62rem;
+    line-height: 1.15;
     white-space: normal;
     overflow-wrap: anywhere;
     text-align: left;
@@ -649,7 +653,7 @@
     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
   }
 
-  .roster-mobile-shift .doctor-chip.ep-doctor-chip br {
+  .agenda-shift .doctor-chip.ep-doctor-chip br {
     display: none;
   }
 }
