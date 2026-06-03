@@ -238,15 +238,18 @@ center {
 @media (max-width: 768px) {
   body {
     padding-top: calc(52px + 1.25rem) !important;
-    padding-bottom: calc(190px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: calc(220px + env(safe-area-inset-bottom, 0px)) !important;
     padding-inline: 0.75rem;
     overflow-x: hidden;
   }
   
   .login-box {
-    margin: 0.5rem auto 150px !important;
+    margin: 0.5rem auto 180px !important;
     padding: 1.25rem 1rem 1.25rem;
     border-radius: var(--radius-md);
+    overflow: visible;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   
   .login-box h2 {
@@ -256,6 +259,7 @@ center {
   
   .login-box form {
     gap: 1.15rem;
+    padding-bottom: calc(128px + env(safe-area-inset-bottom, 0px));
   }
 
   .login-box .user-box {
@@ -301,10 +305,14 @@ center {
   }
 
   .login-box .form-actions {
-    position: sticky;
-    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    width: min(calc(100vw - 1.5rem), 680px);
+    transform: translateX(-50%);
     z-index: 1000;
-    margin: 1.25rem -0.25rem 0;
+    margin: 0;
     padding: 0.65rem;
     background: rgba(255, 255, 255, 0.96);
     border: 1px solid var(--card-border);
