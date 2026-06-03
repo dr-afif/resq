@@ -89,7 +89,7 @@
 }
 
 body {
-  padding-top: calc(64px + 3rem);
+  padding-top: calc(64px + 2rem);
 }
 
 /* Responsive Styles for Mobile */
@@ -116,6 +116,6 @@ body {
   }
 
   body {
-    padding-top: calc(52px + 2rem) !important;
+    padding-top: calc(52px + 1.25rem) !important;
   }
 }
