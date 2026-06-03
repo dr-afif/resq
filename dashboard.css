@@ -188,15 +188,122 @@ h1, h2, h3, h4 {
 @media (max-width: 768px) {
   body {
     padding: clamp(1.2rem, 5vw, 2rem) clamp(0.75rem, 4vw, 1.5rem) clamp(6.5rem, 14vw, 8.5rem);
+    overflow-x: hidden;
   }
   
   .dashboard {
     grid-template-columns: 1fr;
     gap: 1.2rem;
+    width: 100%;
   }
   
   .card {
     padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-inline: 0.75rem;
+  }
+
+  .dashboard {
+    gap: 1rem;
+    padding-top: 0.75rem;
+  }
+
+  .dashboard .card {
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .dashboard .card.complex-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dashboard .swiper-container,
+  .dashboard .swiper-wrapper,
+  .dashboard .swiper-slide {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .dashboard .swiper-slide {
+    min-width: 100%;
+    padding: 0.75rem 0.75rem 1rem;
+  }
+
+  .dashboard .header-section {
+    margin-bottom: 1rem !important;
+  }
+
+  .dashboard .header-section h1 {
+    font-size: 1.65rem !important;
+    line-height: 1.15;
+  }
+
+  .dashboard .last-updated {
+    display: inline-flex;
+    max-width: 100%;
+    white-space: normal;
+    font-size: 0.85rem !important;
+    line-height: 1.35;
+  }
+
+  .dashboard .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .dashboard .stat-card {
+    width: 100%;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .dashboard .stat-card .card-header {
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .dashboard .zone-icon-svg {
+    width: 30px;
+    height: 30px;
+    margin-right: 0.65rem;
+  }
+
+  .dashboard .stat-card h2 {
+    font-size: 1.15rem;
+  }
+
+  .dashboard .main-metric {
+    justify-content: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .dashboard .seen-count {
+    font-size: 3rem;
+  }
+
+  .dashboard .separator,
+  .dashboard .total-count {
+    font-size: 1.65rem;
+  }
+
+  .dashboard .unit {
+    display: inline;
+    margin-left: 0.35rem;
+  }
+
+  .dashboard .breach-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
   }
 }
 

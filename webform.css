@@ -238,13 +238,14 @@ center {
 @media (max-width: 768px) {
   body {
     padding-top: calc(52px + 1.25rem) !important;
-    padding-bottom: 120px !important;
-    padding-inline: 0.5rem;
+    padding-bottom: calc(190px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-inline: 0.75rem;
+    overflow-x: hidden;
   }
   
   .login-box {
-    margin: 0.5rem auto 110px !important;
-    padding: 1.25rem 1rem 1.5rem;
+    margin: 0.5rem auto 150px !important;
+    padding: 1.25rem 1rem 1.25rem;
     border-radius: var(--radius-md);
   }
   
@@ -254,27 +255,28 @@ center {
   }
   
   .login-box form {
-    gap: 1rem;
+    gap: 1.15rem;
   }
 
   .login-box .user-box {
-    gap: 0.3rem;
+    gap: 0.45rem;
   }
 
   .login-box .user-box label {
-    font-size: 0.82rem;
+    font-size: 0.9rem;
   }
 
   .login-box .user-box input,
   .login-box .user-box textarea,
   .login-box .user-box select {
-    padding: 0.7rem 0.95rem;
-    font-size: 15px;
+    min-height: 52px;
+    padding: 0.9rem 1rem;
+    font-size: 16px;
     border-radius: var(--radius-sm);
   }
   
   textarea#plan {
-    min-height: 80px; /* Reduced min-height for mobile to avoid scroll */
+    min-height: 120px;
   }
 
   fieldset.radio-container-1,
@@ -292,8 +294,39 @@ center {
 
   .radio-container-1 label,
   .radio-container-2 label {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
+    min-height: 44px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
     border-radius: calc(var(--radius-sm) - 2px);
+  }
+
+  .login-box .form-actions {
+    position: sticky;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    z-index: 1000;
+    margin: 1.25rem -0.25rem 0;
+    padding: 0.65rem;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.18);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .login-box .form-actions .btn-step {
+    min-height: 52px;
+    flex: 1;
+    padding: 0.95rem 1rem;
+    font-size: 1rem;
+  }
+
+  .login-box .referral-queue-panel {
+    gap: 0.6rem;
+  }
+
+  .login-box .referral-queue-panel .btn-step {
+    min-height: 44px;
+    padding: 0.65rem 0.9rem;
   }
 }

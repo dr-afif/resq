@@ -99,6 +99,20 @@
       color: var(--text-muted);
       text-align: center;
     }
+    .referral-queue-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .referral-queue-panel .btn-step {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.8rem;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
@@ -206,6 +220,12 @@
         <button type="submit" class="btn-step btn-next" id="submitBtn" style="display: none;">Send to RESQ SEU</button>
       </div>
       <div id="referral-save-status" class="referral-save-status" role="status" aria-live="polite"></div>
+      <div class="referral-queue-panel">
+        <span id="pending-referral-count">Pending saves: 0</span>
+        <span id="last-referral-save-status">Last save status: Ready</span>
+        <button type="button" class="btn-step" id="retry-referrals-btn">Retry now</button>
+        <button type="button" class="btn-step" id="clear-sent-referrals-btn">Clear sent</button>
+      </div>
 
     </form>
   </div>
@@ -220,9 +240,132 @@
     const prevBtn = document.getElementById('prevBtn');
     const submitBtn = document.getElementById('submitBtn');
     const referralSaveStatus = document.getElementById('referral-save-status');
+    const pendingReferralCount = document.getElementById('pending-referral-count');
+    const lastReferralSaveStatus = document.getElementById('last-referral-save-status');
+    const retryReferralsBtn = document.getElementById('retry-referrals-btn');
+    const clearSentReferralsBtn = document.getElementById('clear-sent-referrals-btn');
+    const REFERRAL_QUEUE_KEY = 'resq_referral_save_queue';
+    const REFERRAL_SAVE_TIMEOUT = 30000;
+    const referralSaveTimers = {};
 
     function setReferralStatus(message) {
       if (referralSaveStatus) referralSaveStatus.textContent = message;
+      if (lastReferralSaveStatus) lastReferralSaveStatus.textContent = "Last save status: " + message;
+    }
+
+    function readReferralQueue() {
+      try {
+        const savedQueue = localStorage.getItem(REFERRAL_QUEUE_KEY);
+        const queue = savedQueue ? JSON.parse(savedQueue) : [];
+        return Array.isArray(queue) ? queue : [];
+      } catch (error) {
+        console.warn("Failed to read referral queue:", error);
+        return [];
+      }
+    }
+
+    function writeReferralQueue(queue) {
+      try {
+        localStorage.setItem(REFERRAL_QUEUE_KEY, JSON.stringify(queue));
+      } catch (error) {
+        console.warn("Failed to save referral queue:", error);
+      }
+      updateReferralQueueUi();
+    }
+
+    function updateReferralQueueUi() {
+      const queue = readReferralQueue();
+      const pendingCount = queue.filter(item => item.status === 'pending' || item.status === 'failed').length;
+      if (pendingReferralCount) pendingReferralCount.textContent = `Pending saves: ${pendingCount}`;
+    }
+
+    function createReferralQueueItem(payload) {
+      const queue = readReferralQueue();
+      const item = {
+        localId: `ref_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        createdAt: Date.now(),
+        payload,
+        status: 'pending',
+        retryCount: 0
+      };
+      queue.push(item);
+      writeReferralQueue(queue);
+      return item;
+    }
+
+    function updateReferralQueueItem(localId, updates) {
+      const queue = readReferralQueue();
+      const nextQueue = queue.map(item => {
+        if (item.localId !== localId) return item;
+        return Object.assign({}, item, updates);
+      });
+      writeReferralQueue(nextQueue);
+    }
+
+    function clearSentReferralQueueItems() {
+      const queue = readReferralQueue();
+      writeReferralQueue(queue.filter(item => item.status !== 'sent'));
+      setReferralStatus("Sent referral saves cleared.");
+    }
+
+    function sendQueuedReferral(item) {
+      if (!item || !item.localId || referralSaveTimers[item.localId]) return;
+
+      const config = window.RESQ_CONFIG || {};
+      const referralScriptUrl = config.referralGoogleAppsScriptUrl || "";
+      if (!referralScriptUrl) {
+        updateReferralQueueItem(item.localId, { status: 'failed' });
+        setReferralStatus("Referral queued. Background save not configured.");
+        return;
+      }
+
+      updateReferralQueueItem(item.localId, {
+        status: 'pending',
+        retryCount: (item.retryCount || 0) + 1
+      });
+
+      const callbackName = `handleReferralQueueResponse_${item.localId}`;
+      window[callbackName] = function (data) {
+        clearTimeout(referralSaveTimers[item.localId]);
+        delete referralSaveTimers[item.localId];
+        delete window[callbackName];
+
+        console.log("Google Sheets Response:", data);
+        if (data && data.status === "success") {
+          updateReferralQueueItem(item.localId, { status: 'sent' });
+          setReferralStatus("Referral saved to Google Sheets.");
+        } else {
+          updateReferralQueueItem(item.localId, { status: 'failed' });
+          setReferralStatus("Referral queued. Background save failed: " + ((data && data.message) || "Unable to save"));
+        }
+      };
+
+      referralSaveTimers[item.localId] = setTimeout(() => {
+        delete referralSaveTimers[item.localId];
+        delete window[callbackName];
+        updateReferralQueueItem(item.localId, { status: 'failed' });
+        setReferralStatus("Referral queued. Background save failed.");
+      }, REFERRAL_SAVE_TIMEOUT);
+
+      const script = document.createElement("script");
+      script.async = true;
+      script.onerror = function () {
+        clearTimeout(referralSaveTimers[item.localId]);
+        delete referralSaveTimers[item.localId];
+        delete window[callbackName];
+        updateReferralQueueItem(item.localId, { status: 'failed' });
+        setReferralStatus("Referral queued. Background save failed.");
+      };
+      script.src = referralScriptUrl
+        + "?callback=" + encodeURIComponent(callbackName)
+        + "&data=" + encodeURIComponent(JSON.stringify(item.payload));
+      document.body.appendChild(script);
+    }
+
+    function retryPendingReferralSaves() {
+      readReferralQueue()
+        .filter(item => item.status === 'pending' || item.status === 'failed')
+        .forEach(sendQueuedReferral);
     }
 
     function updateFormSteps() {
@@ -314,7 +457,14 @@
     });
 
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', toggleOtherInput);
+    document.addEventListener('DOMContentLoaded', () => {
+      toggleOtherInput();
+      updateReferralQueueUi();
+      retryPendingReferralSaves();
+    });
+    if (retryReferralsBtn) retryReferralsBtn.addEventListener('click', retryPendingReferralSaves);
+    if (clearSentReferralsBtn) clearSentReferralsBtn.addEventListener('click', clearSentReferralQueueItems);
+    window.addEventListener('online', retryPendingReferralSaves);
 
     // Form Submission Action
     document.getElementById("whatsappForm").addEventListener("submit", function (e) {
@@ -371,22 +521,8 @@
         alert("⚠️ Error opening WhatsApp. Please try again.");
       }
 
-      // JSONP request instead of fetch
-      const referralScriptUrl = config.referralGoogleAppsScriptUrl || "";
-      if (referralScriptUrl) {
-        const script = document.createElement("script");
-        script.async = true;
-        script.onerror = function () {
-          setReferralStatus("Referral prepared. Background save failed.");
-        };
-        script.src = referralScriptUrl
-          + "?callback=handleResponse"
-          + "&data=" + encodeURIComponent(JSON.stringify(payload));
-        document.body.appendChild(script);
-      } else {
-        console.warn("Referral Google Apps Script URL is not configured.");
-        setReferralStatus("Referral prepared. Background save not configured.");
-      }
+      const queuedReferral = createReferralQueueItem(payload);
+      sendQueuedReferral(queuedReferral);
     });
 
     // Callback for JSONP

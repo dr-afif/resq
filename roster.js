@@ -374,6 +374,40 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     const systemTodayStr = toIsoDate(new Date());
+    let mobileCardsHtml = '';
+
+    function renderDoctorChips(doctors, dateStr, isEp = false) {
+      if (!doctors || doctors.length === 0) {
+        return `<span class="empty-cell-dash">-</span>`;
+      }
+
+      return doctors.map((doc) => {
+        const isMatch = searchQuery && doc.toLowerCase().includes(searchQuery);
+        const highlightClass = isMatch ? ' highlighted' : '';
+
+        if (!isEp) {
+          return `
+            <span class="doctor-chip${highlightClass}">
+              <span>${doc}</span>
+            </span>
+          `;
+        }
+
+        let formattedName = `<span>${doc}</span>`;
+        const docUpper = doc.toUpperCase().trim();
+        if (docUpper.startsWith('DR. ')) {
+          formattedName = `<span>DR.</span><br><span>${doc.trim().substring(4)}</span>`;
+        } else if (docUpper.startsWith('DR ')) {
+          formattedName = `<span>DR</span><br><span>${doc.trim().substring(3)}</span>`;
+        }
+
+        return `
+          <span class="doctor-chip ep-doctor-chip${highlightClass}">
+            ${formattedName}
+          </span>
+        `;
+      }).join('');
+    }
 
     daysList.forEach(({ dayNum, dayName, dateStr }) => {
       const isWeekend = dayName === 'SAT' || dayName === 'SUN';
@@ -387,6 +421,43 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (isWeekend) rowClass = 'row-weekend';
 
       const dayAssignments = rosterGrid[dateStr] || { AM: [], PM: [], NIGHT: [], EP_OFFICE_HOUR: [], EP_ONCALL: [] };
+
+      mobileCardsHtml += `
+        <article class="roster-day-card ${rowClass}">
+          <div class="roster-day-card-header">
+            <div>
+              <div class="roster-day-card-date">${dayNum}</div>
+              <div class="roster-day-card-day" title="${holidayName}">${dayName}</div>
+            </div>
+            <div class="roster-day-card-labels">
+              ${isToday ? '<span class="today-label">TODAY</span>' : ''}
+              ${isHoliday ? `<span class="holiday-label" title="${holidayName}">${holidayName}</span>` : ''}
+            </div>
+          </div>
+          <div class="roster-day-card-shifts">
+            <section class="roster-mobile-shift">
+              <h3>AM</h3>
+              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.AM, dateStr)}</div>
+            </section>
+            <section class="roster-mobile-shift">
+              <h3>PM</h3>
+              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.PM, dateStr)}</div>
+            </section>
+            <section class="roster-mobile-shift">
+              <h3>Night</h3>
+              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.NIGHT, dateStr)}</div>
+            </section>
+            <section class="roster-mobile-shift ep-mobile-shift">
+              <h3>EP Office Hour</h3>
+              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.EP_OFFICE_HOUR, dateStr, true)}</div>
+            </section>
+            <section class="roster-mobile-shift ep-mobile-shift">
+              <h3>EP On Call</h3>
+              <div class="doctor-chips-container">${renderDoctorChips(dayAssignments.EP_ONCALL, dateStr, true)}</div>
+            </section>
+          </div>
+        </article>
+      `;
 
       tableHtml += `<tr class="${rowClass}">`;
       
@@ -414,18 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const doctors = dayAssignments[shiftKey];
         if (doctors && doctors.length > 0) {
           doctors.forEach((doc) => {
-            const nameKey = doc.toLowerCase();
-            const rawShift = doctorRosterMap[nameKey]?.[dateStr] || '';
-            const { isStandby, isExtended } = parseShiftValue(rawShift);
-
-            const isMatch = searchQuery && doc.toLowerCase().includes(searchQuery);
-            const highlightClass = isMatch ? ' highlighted' : '';
-
-            tableHtml += `
-              <span class="doctor-chip${highlightClass}">
-                <span>${doc}</span>
-              </span>
-            `;
+            tableHtml += renderDoctorChips([doc], dateStr);
           });
         } else {
           tableHtml += `<span class="empty-cell-dash">-</span>`;
@@ -439,22 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const doctors = dayAssignments[shiftKey];
         if (doctors && doctors.length > 0) {
           doctors.forEach((doc) => {
-            let formattedName = `<span>${doc}</span>`;
-            const docUpper = doc.toUpperCase().trim();
-            if (docUpper.startsWith('DR. ')) {
-              formattedName = `<span>DR.</span><br><span>${doc.trim().substring(4)}</span>`;
-            } else if (docUpper.startsWith('DR ')) {
-              formattedName = `<span>DR</span><br><span>${doc.trim().substring(3)}</span>`;
-            }
-            
-            const isMatch = searchQuery && doc.toLowerCase().includes(searchQuery);
-            const highlightClass = isMatch ? ' highlighted' : '';
-
-            tableHtml += `
-              <span class="doctor-chip ep-doctor-chip${highlightClass}">
-                ${formattedName}
-              </span>
-            `;
+            tableHtml += renderDoctorChips([doc], dateStr, true);
           });
         } else {
           tableHtml += `<span class="empty-cell-dash">-</span>`;
@@ -468,6 +513,9 @@ document.addEventListener('DOMContentLoaded', () => {
     tableHtml += `
             </tbody>
           </table>
+        </div>
+        <div class="roster-mobile-cards">
+          ${mobileCardsHtml}
         </div>
       </div>
     `;
