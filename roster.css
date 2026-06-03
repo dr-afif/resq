@@ -112,6 +112,14 @@
   border: 1px solid #e2e8f0;
 }
 
+.roster-sync-status {
+  min-height: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+}
+
 .control-btn {
   background: #ffffff;
   border: 1px solid transparent;
@@ -477,4 +485,3 @@
     line-height: 1;
   }
 }
-

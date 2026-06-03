@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Google Apps Script URL from REQUEST-APP
   const config = window.RESQ_CONFIG || {};
   const APPS_SCRIPT_URL = config.rosterGoogleAppsScriptUrl || "";
+  const ROSTER_CACHE_KEY = 'resq_cache_masterRoster';
+  const ROSTER_CACHE_TIMESTAMP_KEY = 'resq_cache_masterRoster_timestamp';
 
   // Selangor Public Holidays (2025-2026)
   const HOLIDAYS = {
@@ -66,19 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
   activeMonth = currentMonthStr;
 
   // Cache loading
-  try {
-    const cachedRoster = localStorage.getItem('resq_cache_masterRoster');
-    if (cachedRoster) {
-      masterRoster = JSON.parse(cachedRoster);
-    }
-  } catch (e) {
-    console.warn("Failed to load cached masterRoster:", e);
-  }
+  const cachedRosterLoaded = loadCachedRoster();
 
   // DOM Elements
   const prevBtn = document.getElementById('prev-month-btn');
   const nextBtn = document.getElementById('next-month-btn');
   const currentBtn = document.getElementById('current-month-btn');
+  const refreshBtn = document.getElementById('refresh-roster-btn');
+  const syncStatus = document.getElementById('roster-sync-status');
   const monthLabel = document.getElementById('active-month-label');
   const tableContainer = document.getElementById('table-container');
 
@@ -86,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (prevBtn) prevBtn.addEventListener('click', handlePrevMonth);
   if (nextBtn) nextBtn.addEventListener('click', handleNextMonth);
   if (currentBtn) currentBtn.addEventListener('click', handleCurrentMonth);
+  if (refreshBtn) refreshBtn.addEventListener('click', fetchRosterData);
 
   const searchInput = document.getElementById('roster-doctor-search');
   if (searchInput) {
@@ -97,11 +95,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial render with cached data (if available) and background fetch
   render();
+  if (cachedRosterLoaded) {
+    setSyncStatus(`Showing cached roster from ${formatStatusTime(getCachedRosterTimestamp())}`);
+  }
   fetchRosterData();
 
   // Functions
+  function formatStatusTime(timestamp) {
+    const date = new Date(Number(timestamp) || Date.now());
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  function setSyncStatus(message) {
+    if (syncStatus) syncStatus.textContent = message;
+  }
+
+  function getCachedRosterTimestamp() {
+    try {
+      return localStorage.getItem(ROSTER_CACHE_TIMESTAMP_KEY);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function loadCachedRoster() {
+    try {
+      const cachedRoster = localStorage.getItem(ROSTER_CACHE_KEY);
+      if (cachedRoster) {
+        const parsedRoster = JSON.parse(cachedRoster);
+        if (Array.isArray(parsedRoster)) {
+          masterRoster = parsedRoster;
+          return masterRoster.length > 0;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load cached masterRoster:", e);
+    }
+    return false;
+  }
+
+  function saveRosterCache(roster, timestamp) {
+    try {
+      localStorage.setItem(ROSTER_CACHE_KEY, JSON.stringify(roster));
+      localStorage.setItem(ROSTER_CACHE_TIMESTAMP_KEY, String(timestamp || Date.now()));
+    } catch (e) {
+      console.warn("Failed to save cached masterRoster:", e);
+    }
+  }
+
   async function fetchRosterData() {
+    if (isSyncing) return;
+
     isSyncing = true;
+    if (refreshBtn) refreshBtn.disabled = true;
     showLoadingState();
 
     try {
@@ -110,18 +156,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch(`${APPS_SCRIPT_URL}?action=alldata`);
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
+      const updatedAt = Date.now();
 
-      if (data && typeof data === 'object') {
+      if (data && typeof data === 'object' && Array.isArray(data.masterRoster)) {
         masterRoster = data.masterRoster || [];
         // Save to cache
-        localStorage.setItem('resq_cache_masterRoster', JSON.stringify(masterRoster));
+        saveRosterCache(masterRoster, updatedAt);
       } else if (Array.isArray(data)) {
         // Fallback if Apps Script returns only masterRoster directly
         masterRoster = data;
-        localStorage.setItem('resq_cache_masterRoster', JSON.stringify(masterRoster));
+        saveRosterCache(masterRoster, updatedAt);
+      } else {
+        throw new Error("Invalid roster data format received from server");
       }
       
       render();
+      setSyncStatus(`Roster updated ${formatStatusTime(updatedAt)}`);
     } catch (error) {
       console.error("Failed to fetch roster data:", error);
       if (masterRoster.length === 0) {
@@ -129,10 +179,12 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         // Render cached data but log error
         render();
+        setSyncStatus("Offline / cached roster");
         console.warn("Displaying cached roster due to fetch failure.");
       }
     } finally {
       isSyncing = false;
+      if (refreshBtn) refreshBtn.disabled = false;
     }
   }
 

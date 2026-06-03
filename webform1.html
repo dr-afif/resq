@@ -91,6 +91,14 @@
       background: var(--primary-hover);
       border-color: var(--primary-hover);
     }
+    .referral-save-status {
+      min-height: 1rem;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
@@ -197,6 +205,7 @@
         <button type="button" class="btn-step btn-next" id="nextBtn">Next</button>
         <button type="submit" class="btn-step btn-next" id="submitBtn" style="display: none;">Send to RESQ SEU</button>
       </div>
+      <div id="referral-save-status" class="referral-save-status" role="status" aria-live="polite"></div>
 
     </form>
   </div>
@@ -210,6 +219,11 @@
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
     const submitBtn = document.getElementById('submitBtn');
+    const referralSaveStatus = document.getElementById('referral-save-status');
+
+    function setReferralStatus(message) {
+      if (referralSaveStatus) referralSaveStatus.textContent = message;
+    }
 
     function updateFormSteps() {
       // Toggle display of steps content
@@ -331,46 +345,57 @@
         name, mrn, from, diagnosis, referred, received, dept, mo, uptriage, plan
       };
 
-      // JSONP request instead of fetch
       const config = window.RESQ_CONFIG || {};
+
+      // WhatsApp - Copy message and open group
+      try {
+        const groupID = config.whatsappGroupId || "";
+        if (!groupID) throw new Error("WhatsApp group ID is not configured");
+        const whatsappUrl = `https://chat.whatsapp.com/${groupID}`;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(message).catch(err => {
+            console.warn("Clipboard not available:", err);
+            prompt("Copy this message and paste it in WhatsApp:", message);
+          });
+          window.open(whatsappUrl, "_blank");
+        } else {
+          window.open(whatsappUrl, "_blank");
+          prompt("Copy this message and paste it in WhatsApp:", message);
+        }
+
+        setReferralStatus("Referral prepared. Saving in background…");
+
+      } catch (error) {
+        console.error("Error opening WhatsApp:", error);
+        alert("⚠️ Error opening WhatsApp. Please try again.");
+      }
+
+      // JSONP request instead of fetch
       const referralScriptUrl = config.referralGoogleAppsScriptUrl || "";
       if (referralScriptUrl) {
         const script = document.createElement("script");
+        script.async = true;
+        script.onerror = function () {
+          setReferralStatus("Referral prepared. Background save failed.");
+        };
         script.src = referralScriptUrl
           + "?callback=handleResponse"
           + "&data=" + encodeURIComponent(JSON.stringify(payload));
         document.body.appendChild(script);
       } else {
         console.warn("Referral Google Apps Script URL is not configured.");
-      }
-
-      // WhatsApp - Copy message and open group
-      try {
-        const groupID = config.whatsappGroupId || "";
-        if (!groupID) throw new Error("WhatsApp group ID is not configured");
-
-        navigator.clipboard.writeText(message).then(() => {
-          window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
-          alert("✅ Message copied to clipboard! \n\nWhatsApp group is opening - paste the message (Ctrl+V) in the chat box.");
-        }).catch(err => {
-          console.warn("Clipboard not available:", err);
-          window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
-          prompt("Copy this message and paste it in WhatsApp:", message);
-        });
-
-      } catch (error) {
-        console.error("Error opening WhatsApp:", error);
-        alert("⚠️ Error opening WhatsApp. Please try again.");
+        setReferralStatus("Referral prepared. Background save not configured.");
       }
     });
 
     // Callback for JSONP
     window.handleResponse = function (data) {
       console.log("Google Sheets Response:", data);
-      if (data.status === "success") {
-        alert("✅ Case saved to Google Sheets!");
+      if (data && data.status === "success") {
+        setReferralStatus("Referral saved to Google Sheets.");
       } else {
-        alert("⚠️ Error: " + (data.message || "Unable to save"));
+        setReferralStatus("Referral prepared. Background save failed: " + ((data && data.message) || "Unable to save"));
       }
     }
   </script>
