@@ -235,10 +235,10 @@ center {
   box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   body {
     padding-top: calc(52px + 1.25rem) !important;
-    padding-bottom: 90px !important;
+    padding-bottom: 120px !important;
     padding-inline: 0.5rem;
   }
   
