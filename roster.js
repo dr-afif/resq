@@ -2,7 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Google Apps Script URL from REQUEST-APP
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFNXKmohkgla4JKB819RZSwh7YIsiff87B-mGCZuEJXEe5H_bk5RWHew7VAMWWtv_5jA/exec";
+  const config = window.RESQ_CONFIG || {};
+  const APPS_SCRIPT_URL = config.rosterGoogleAppsScriptUrl || "";
 
   // Selangor Public Holidays (2025-2026)
   const HOLIDAYS = {
@@ -104,6 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     showLoadingState();
 
     try {
+      if (!APPS_SCRIPT_URL) throw new Error("Roster Google Apps Script URL is not configured");
+
       const response = await fetch(`${APPS_SCRIPT_URL}?action=alldata`);
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();

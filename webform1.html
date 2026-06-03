@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Referral Case Form</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="webform.css">
   <link rel="stylesheet" href="top-navigation.css">
   <style>
@@ -200,6 +201,7 @@
     </form>
   </div>
 
+  <script src="js/config.js"></script>
   <script>
     // Multi-step Navigation Logic
     let currentStep = 1;
@@ -330,15 +332,22 @@
       };
 
       // JSONP request instead of fetch
-      const script = document.createElement("script");
-      script.src = "https://script.google.com/macros/s/AKfycbypGu3aeg_cdUPWDZAiw0SWCUidFQbQfUjazlNjfrA0xZvxvnlnk5keRfViQP_qKjpK/exec"
-        + "?callback=handleResponse"
-        + "&data=" + encodeURIComponent(JSON.stringify(payload));
-      document.body.appendChild(script);
+      const config = window.RESQ_CONFIG || {};
+      const referralScriptUrl = config.referralGoogleAppsScriptUrl || "";
+      if (referralScriptUrl) {
+        const script = document.createElement("script");
+        script.src = referralScriptUrl
+          + "?callback=handleResponse"
+          + "&data=" + encodeURIComponent(JSON.stringify(payload));
+        document.body.appendChild(script);
+      } else {
+        console.warn("Referral Google Apps Script URL is not configured.");
+      }
 
       // WhatsApp - Copy message and open group
       try {
-        const groupID = "BukdQzI6FL0HRnpVgksTqS";
+        const groupID = config.whatsappGroupId || "";
+        if (!groupID) throw new Error("WhatsApp group ID is not configured");
 
         navigator.clipboard.writeText(message).then(() => {
           window.open(`https://chat.whatsapp.com/${groupID}`, "_blank");
@@ -369,17 +378,31 @@
   <div id="navbar-container"></div>
   <script>
     fetch('navbar.html')
-      .then(res => res.text())
+      .then(res => {
+        if (!res.ok) throw new Error('Navbar fetch failed');
+        return res.text();
+      })
       .then(html => {
-        document.getElementById('navbar-container').innerHTML = html;
+        const container = document.getElementById('navbar-container');
+        if (!container) return;
+        container.innerHTML = html;
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'navbar.css';
         document.head.appendChild(link);
-      });
+      })
+      .catch(() => {});
   </script>
 
   <script src="top-navigation.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+      });
+    }
+  </script>
+  <script src="js/pwa-status.js"></script>
 </body>
 
 </html>

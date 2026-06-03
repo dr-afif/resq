@@ -19,12 +19,15 @@ function loadTopNav() {
     if (!container) return;
 
     fetch('top-navigation.html?t=' + Date.now())
-        .then(res => res.text())
+        .then(res => {
+            if (!res.ok) throw new Error('Top navigation fetch failed');
+            return res.text();
+        })
         .then(html => {
             container.innerHTML = html;
             initTopNav();
         })
-        .catch(err => console.error('Error loading top nav:', err));
+        .catch(() => {});
 }
 
 // Global initialization

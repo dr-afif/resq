@@ -1,7 +1,8 @@
 {
   "name": "RESQ Dashboard",
-  "short_name": "RESQ Dashboard",
-  "start_url": "index.html",
+  "short_name": "RESQ",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0077cc",
@@ -15,6 +16,24 @@
       "src": "./icons/resq-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "./index.html"
+    },
+    {
+      "name": "Referral",
+      "url": "./webform1.html"
+    },
+    {
+      "name": "Roster",
+      "url": "./roster.html"
+    },
+    {
+      "name": "Info",
+      "url": "./info.html"
     }
   ]
 }

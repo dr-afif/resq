@@ -1,29 +1,86 @@
 document.addEventListener('DOMContentLoaded', () => {
     // URL of your Google Apps Script Web App
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMYWwVyXIuehLiModrZqciIFH_L82R5m0b1TuHjABkWAUQZtIZaF6zecF13-yvrLbm/exec";
+    const config = window.RESQ_CONFIG || {};
+    const GOOGLE_SCRIPT_URL = config.zoneMonitorGoogleAppsScriptUrl || "";
 
     const updateInterval = 5000; // Update every 5 seconds
+    const ZONE_CACHE_KEY = "resq_cache_zoneMonitor";
+    let isFetchingZoneData = false;
+
+    function formatStatusTime(timestamp) {
+        const date = new Date(timestamp || Date.now());
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+
+    function setZoneStatus(message) {
+        const lastUpdatedEl = document.getElementById('last-updated');
+        if (lastUpdatedEl) lastUpdatedEl.textContent = message;
+    }
+
+    function readCachedZoneData() {
+        try {
+            const cached = localStorage.getItem(ZONE_CACHE_KEY);
+            return cached ? JSON.parse(cached) : null;
+        } catch (error) {
+            console.warn("Failed to load cached zone data:", error);
+            return null;
+        }
+    }
+
+    function writeCachedZoneData(zones, timestamp) {
+        try {
+            localStorage.setItem(ZONE_CACHE_KEY, JSON.stringify({
+                zones,
+                timestamp: timestamp || Date.now()
+            }));
+        } catch (error) {
+            console.warn("Failed to cache zone data:", error);
+        }
+    }
+
+    function renderCachedZoneData() {
+        const cached = readCachedZoneData();
+        if (!cached || !cached.zones) return false;
+
+        updateDashboard(cached.zones);
+        setZoneStatus(`Cached data from ${formatStatusTime(cached.timestamp)}`);
+        return true;
+    }
 
     async function fetchZoneData() {
+        if (isFetchingZoneData) return;
+
+        if (!GOOGLE_SCRIPT_URL) {
+            console.warn("Zone monitor Google Apps Script URL is not configured.");
+            setZoneStatus("Offline / cached data");
+            return;
+        }
+
+        isFetchingZoneData = true;
+
         try {
             const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getZones`);
             const data = await response.json();
 
             if (data && data.status === 'success' && data.zones) {
-                updateDashboard(data.zones, data.timestamp);
+                const timestamp = data.timestamp || Date.now();
+                updateDashboard(data.zones);
+                writeCachedZoneData(data.zones, timestamp);
+                setZoneStatus(`Live / updated ${formatStatusTime(timestamp)}`);
             } else {
                 console.warn("Invalid data format received from server", data);
             }
         } catch (error) {
             console.error("Failed to fetch zone data:", error);
+            if (readCachedZoneData()) {
+                setZoneStatus("Offline / cached data");
+            }
+        } finally {
+            isFetchingZoneData = false;
         }
     }
 
-    function updateDashboard(zones, timestamp) {
-        const date = new Date(timestamp || Date.now());
-        const lastUpdatedEl = document.getElementById('last-updated');
-        if (lastUpdatedEl) lastUpdatedEl.textContent = `Last updated: ${date.toLocaleTimeString()}`;
-
+    function updateDashboard(zones) {
         // Update Zones
         ['green', 'yellow', 'red'].forEach(zoneKey => {
             const data = zones[zoneKey];
@@ -52,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initial load
+    renderCachedZoneData();
     fetchZoneData();
     setInterval(fetchZoneData, updateInterval);
 
@@ -77,6 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
             remoteBtn.disabled = true;
 
             try {
+                if (!GOOGLE_SCRIPT_URL) throw new Error("Zone monitor Google Apps Script URL is not configured");
+
                 // 1. Send Request
                 const req = await fetch(`${GOOGLE_SCRIPT_URL}?action=requestScreenshot&userId=${userId}`);
                 const res = await req.json();

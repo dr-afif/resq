@@ -1,6 +1,7 @@
 // Show splash screen only on first app open
 document.addEventListener("DOMContentLoaded", () => {
   const splashScreen = document.getElementById("splash-screen");
+  if (!splashScreen) return;
 
   if (!sessionStorage.getItem("splashShown")) {
     setTimeout(() => {

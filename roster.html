@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Full Roster</title>
+  <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="dashboard.css" />
   <link rel="stylesheet" href="top-navigation.css" />
   <link rel="stylesheet" href="roster.css" />
@@ -45,18 +46,33 @@
   <div id="navbar-container"></div>
   <script>
     fetch('navbar.html')
-      .then(res => res.text())
+      .then(res => {
+        if (!res.ok) throw new Error('Navbar fetch failed');
+        return res.text();
+      })
       .then(html => {
-        document.getElementById('navbar-container').innerHTML = html;
+        const container = document.getElementById('navbar-container');
+        if (!container) return;
+        container.innerHTML = html;
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'navbar.css';
         document.head.appendChild(link);
-      });
+      })
+      .catch(() => {});
   </script>
 
   <!-- JavaScript Page Controller -->
+  <script src="js/config.js"></script>
   <script src="roster.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+      });
+    }
+  </script>
+  <script src="js/pwa-status.js"></script>
 </body>
 
 </html>

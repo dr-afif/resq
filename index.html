@@ -154,21 +154,37 @@
 
   </main>
 
+  <script src="js/config.js"></script>
   <script src="app.js"></script>
   <script src="monitor.js"></script>
 
   <div id="navbar-container"></div>
   <script>
     fetch('navbar.html')
-      .then(res => res.text())
+      .then(res => {
+        if (!res.ok) throw new Error('Navbar fetch failed');
+        return res.text();
+      })
       .then(html => {
-        document.getElementById('navbar-container').innerHTML = html;
+        const container = document.getElementById('navbar-container');
+        if (!container) return;
+        container.innerHTML = html;
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'navbar.css';
         document.head.appendChild(link);
-      });
+      })
+      .catch(() => {});
   </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+      });
+    }
+  </script>
+  <script src="js/pwa-status.js"></script>
 
 </body>
 
