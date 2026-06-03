@@ -243,7 +243,7 @@ center {
   }
   
   .login-box {
-    margin: 0.5rem auto;
+    margin: 0.5rem auto 110px !important;
     padding: 1.25rem 1rem 1.5rem;
     border-radius: var(--radius-md);
   }
