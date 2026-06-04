@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'Radiology (MRI Suite)', extension: '9560', category: 'Labs & Diagnostics' },
     { name: 'Radiology (CT Suite)', extension: '9540', category: 'Labs & Diagnostics' },
     { name: 'Admission Counter (PTPO 1)', extension: '9618', category: 'Support & Services' },
-    { name: 'Admission Counter (PTPO 2)', extension: '6909', category: 'Support & Services' },
+    { name: 'Admission Counter (PTPO 2)', extension: '9609', category: 'Support & Services' },
     { name: 'Pharmacy (Outpatient)', extension: '9663 / 9664 / 9669', category: 'Support & Services' },
     { name: 'Pharmacy (Inpatient)', extension: '9671 / 9672', category: 'Support & Services' }
   ];
