@@ -24,6 +24,7 @@
     <!-- Segmented Control for Sections -->
     <div class="tabs-control">
       <button class="tab-btn active" data-target="contacts-section">Contacts</button>
+      <button class="tab-btn" data-target="websites-section">Websites</button>
       <button class="tab-btn" data-target="guidelines-section">Guidelines</button>
       <button class="tab-btn" data-target="faq-section">FAQs</button>
     </div>
@@ -40,7 +41,19 @@
       </div>
     </section>
 
-    <!-- 2. Guidelines & Flowcharts Section -->
+    <!-- 2. Common Websites Section -->
+    <section id="websites-section" class="tab-content">
+      <div class="search-bar-container">
+        <input type="text" id="website-search" placeholder="Search websites (e.g. radiology, lab, blood bank)...">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+
+      <div class="websites-grid" id="websites-list">
+        <!-- Websites will be dynamically loaded here by info.js -->
+      </div>
+    </section>
+
+    <!-- 3. Guidelines & Flowcharts Section -->
     <section id="guidelines-section" class="tab-content">
       <div class="guidelines-grid">
         <div class="guideline-card">
@@ -80,7 +93,7 @@
       </div>
     </section>
 
-    <!-- 3. FAQs Section -->
+    <!-- 4. FAQs Section -->
     <section id="faq-section" class="tab-content">
       <div class="faq-list">
         <div class="faq-item">

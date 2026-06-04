@@ -1,4 +1,4 @@
-const CACHE_NAME = "resq-static-v2";
+const CACHE_NAME = "resq-static-v3";
 
 const APP_SHELL_FILES = [
   "./",
